@@ -3,25 +3,27 @@
 <head>
 <title>Simple Numbers Guessing Game</title>
 <script type='text/javascript' src='Game.js'></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"><!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-	<div>
+	<div class="container-fluid">
 	<div id="divStart">
 		<button id="btnStartGame" class="btn btn-success">Star Game</button>
 	</div>
 	<div id="divGameContent">
 <h1 id="currentNumber">0</h1>
-<button type="button" name="btnLess" class="btn btn-info"onclick="onChoose(0)">Less</button>
+<button type="button" name="btnLess" class="btn btn-info" onclick="onChoose(0)">Less</button>
 <button type="button" name="btnMore" class="btn btn-primary" onclick="onChoose(1)">More</button>
-<h3 id="status"></h3>
+</div>
+<div id="divGameOver" style="visibility:collapse">
+	<h3 class="">Game Over </h3>
+</div>
+<div id="divResults">
+	<h3 id="score"></h3>
 </div>
 </div>
 <script type="text/javascript">
@@ -38,37 +40,43 @@
 		 	document.getElementById('divGameContent').style.visibility = 'hidden';
 	 });;
 
-
   function GameStart()
 	{
 		game = new Game();
 		game.start();
-
+ 		SetCurrentNumber(game.currentNumber);
 		document.getElementById('divStart').style.visibility = 'hidden';
 		document.getElementById('divGameContent').style.visibility = 'visible';
+			document.getElementById('divGameOver').style.visibility = 'collapse';
+		document.getElementById('score').innerHTML = "Score: " + game.score;
 	}
 
-	function onChoose(option){
+	function onChoose(option)
+	{
+		var result = game.gameStep(option);
 
-		var result;
-		if(option == 0){
-		 result = game.less();
-		}
-		else{
-			result = game.more();
-		}
-		if(result === true){
-			var lblCurrentNumber= document.getElementById('currentNumber');
-  	      	lblCurrentNumber.innerHTML = game.currentNumber;
+		if(result === true)
+		{
+			 SetCurrentNumber(game.currentNumber);
 		}
 		else
 		{
-			var status= document.getElementById('status');
-  	      	status.innerHTML = "game over. Score: " + game.score;
+
+			document.getElementById('divStart').style.visibility = 'visible';
+			document.getElementById('divGameContent').style.visibility = 'collapse';
+			document.getElementById('divGameOver').style.visibility = 'visible';     
+
+			localStorage.setItem('Results', JSON.stringify(game));
 		}
+
+		document.getElementById('score').innerHTML = "Score: " + game.score;
+
 	}
 
-
+	function SetCurrentNumber(value){
+		var lblCurrentNumber= document.getElementById('currentNumber');
+		lblCurrentNumber.innerHTML = game.currentNumber;
+	}
 
 </script>
 </body>
