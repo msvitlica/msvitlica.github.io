@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simple Numbers Guessing Game</title>
+<script type='text/javascript' src='Game.js'></script>
+</head>
+<body>
+<h1 id="currentNumber">0</h1>
+<button type="button" name="btnLess" onclick="onChoose(0)">Less</button>
+<button type="button" name="btnMore" onclick="onChoose(1)">More</button>
+<h3 id="status"></h3>
+<script type="text/javascript">
+	var game;
+
+	window.addEventListener("load", function()
+	{
+		game = new Game();
+		game.start();    
+		  var currentNumber= document.getElementById('currentNumber');
+  	      currentNumber.innerHTML = game.currentNumber;
+	});;
+
+
+	function onChoose(option){
+
+		var result;
+		if(option == 0){
+		 result = game.less();
+		}
+		else{
+			result = game.more();
+		}
+		if(result === true){
+			var lblCurrentNumber= document.getElementById('currentNumber');
+  	      	lblCurrentNumber.innerHTML = game.currentNumber;
+		}
+		else
+		{
+			var status= document.getElementById('status');
+  	      	status.innerHTML = "game over. Score: " + game.score;  	      
+		}
+	}
+
+	
+	
+</script>
+</body>
+</html>
