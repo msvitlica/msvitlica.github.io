@@ -15,7 +15,7 @@
 <body>
 	<div>
 	<div id="divStart">
-		<button class="btn btn-success">Star Game</button>
+		<button id="btnStartGame" class="btn btn-success">Star Game</button>
 	</div>
 	<div id="divGameContent">
 <h1 id="currentNumber">0</h1>
@@ -26,15 +26,27 @@
 </div>
 <script type="text/javascript">
 	var game;
+	var btnStartGame = document.getElementById('btnStartGame');
 
-	window.addEventListener("load", function()
+	btnStartGame.addEventListener("click", function()
+	{
+	   GameStart();
+	});
+
+	 window.addEventListener("load", function()
+	 {
+		 	document.getElementById('divGameContent').style.visibility = 'hidden';
+	 });;
+
+
+  function GameStart()
 	{
 		game = new Game();
 		game.start();
-		  var currentNumber= document.getElementById('currentNumber');
-  	      currentNumber.innerHTML = game.currentNumber;
-	});;
 
+		document.getElementById('divStart').style.visibility = 'hidden';
+		document.getElementById('divGameContent').style.visibility = 'visible';
+	}
 
 	function onChoose(option){
 
