@@ -7,40 +7,40 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="css/custom_v1.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
-    <div class="container-fluid" style="background-color:darkgray ">
-        <div class="row">
-            <div class="col-md-2" id="divStart" style="background-color:dodgerblue">
+<!-- <body style="background-color:#3b3b3b"> -->
+  <body >
+    <div class="container">
+        <div class="row row-centered">
+            <div class="col-xs-6" id="divStart" style="background-color:#24ff92">
                 <h4 style="color:white">Start Game</h4>
-                <!--<button id="btnStartGame" class="btn btn-success">Star Game</button>-->
             </div>
         </div>
         <div class="row">
-            <div class="col-md-1" id="divGameContent">
+            <div class="col-xs-6" id="divGameContent">
                 <div class="row" style="color:white ">
                     <div class="span12" style="text-align:center">
                         <h1 id="currentNumber">0</h1>
                     </div>
                 </div>
                 <div class="row">
-
-                        <div id="divLess" class="col-xs-6" style="background-color:lightblue;color:white"><h4>Less</h4></div>
-                        <div id="divMore" class="col-xs-6" style="background-color:cornflowerblue;color:white"><h4>More</h4></div>    
-                     
-                    <!--<button type="button" name="btnLess" class="btn btn-info" onclick="onChoose(0)">Less</button>
-                    <button type="button" name="btnMore" class="btn btn-primary" onclick="onChoose(1)">More</button>-->
+                      <div id="divLess" class="col-xs-6" style="background-color:lightblue;color:white"><h4>Less</h4></div>
+                      <div id="divMore" class="col-xs-6" style="background-color:cornflowerblue;color:white"><h4>More</h4></div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div id="divGameOver" style="visibility:collapse">
+          <div class="col-xs-6">
+            <div  class="game-over" style="visibility:collapse">
                 <h3 class="">Game Over </h3>
             </div>
             <div id="divResults">
                 <h3 id="score"></h3>
             </div>
+          </div>
         </div>
     </div>
     <script type="text/javascript">
@@ -66,7 +66,7 @@
 
         window.addEventListener("load", function () {
             document.getElementById('divGameContent').style.visibility = 'hidden';
-        });;  
+        });;
 
         function GameStart() {
             game = new Game();
@@ -74,7 +74,7 @@
             SetCurrentNumber(game.currentNumber);
             document.getElementById('divStart').style.visibility = 'hidden';
             document.getElementById('divGameContent').style.visibility = 'visible';
-            document.getElementById('divGameOver').style.visibility = 'collapse';
+            document.getElementsByClassName('game-over').style.visibility = 'collapse';
             document.getElementById('score').innerHTML = "Score: " + game.score;
         }
 
@@ -88,7 +88,7 @@
 
                 document.getElementById('divStart').style.visibility = 'visible';
                 document.getElementById('divGameContent').style.visibility = 'collapse';
-                document.getElementById('divGameOver').style.visibility = 'visible';
+                document.getElementsByClassName('game-over').style.visibility = 'visible';
 
                 localStorage.setItem('Results', JSON.stringify(game));
             }

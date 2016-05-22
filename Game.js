@@ -21,17 +21,24 @@ var Game = function(){
 		throw "not supported option";
 		}
 	}
+
+	this.generateNumber = function(maxNum){
+		  return Math.floor((Math.random() * maxNum)+1);
+
+	}
 }
 
 Game.prototype.start = function() {
   console.log("game started");
-  this.currentNumber = Math.floor((Math.random() * 100)+1);
+
+this.currentNumber = this.generateNumber(77);
+
   console.log(currentNumber);
 };
 
 Game.prototype.gameStep = function(option)
 {
-	var nextNumber = Math.floor((Math.random() * 100) + 1);
+	var nextNumber = this.generateNumber(77);
 
 	if(this.compare(option, nextNumber))
 	{
