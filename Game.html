@@ -12,34 +12,34 @@
 </head>
   <body >
     <div class="container">
-        <div class="row">
-          <div class="col-xs-12 option-button" id="divStart" style="background-color:#24ff92" >
+        <div id="divStart" class="row">
+          <div class="col-xs-12 option-button" style="background-color:#24ff92" data-togle="collapse" data-target="#divStart">
               <h3 style="color:#3b3b3b">Start Game</h3>
           </div>
+        </div>
+        <div class="row">
+          <div>
+            <div style="align-content:rigth">
+                <h3 id="score" style="color:white;"></h3>
+            </div>
+            <div style="align-content:left">
+                <h3 id="lives" style="color:#ff8d1e;"></h3>
+            </div>
+          </div>
+        </div>
+        <div class="row"
           <div class="col-xs-12" id="divGameContent">
-                <div clas="row">
-                <h2 id="lifes">3</h2>
-                </div>
                 <div class="row" style="color:white ">
                     <div class="span12" style="text-align:center">
                         <h1 id="currentNumber">0</h1>
                     </div>
                 </div>
                 <div class="row" style="align-content:">
-                      <div id="divLess" class="col-xs-6 option-button" style="background-color:lightblue;color:white"><h4>Less</h4></div>
-                      <div id="divMore" class="col-xs-6 option-button" style="background-color:cornflowerblue;color:white"><h4>More</h4></div>
+                      <button id="divLess" class="col-xs-6 option-button" style="background-color:#ff8d1e;color:white">Less</button>
+                      <button id="divMore" class="col-xs-6 option-button" style="background-color:#0062c3;color:white">More</button>
+                      <button id="btnPlayAgain" class="col-xs-2 option-button" style="background-color:cornflowerblue;color:white;visibility:collapse">More</button>
                 </div>
             </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-6">
-            <div  class="game-over" style="visibility:collapse">
-                <h3 class="">Game Over </h3>
-            </div>
-            <div>
-                <h3 id="score" style="color:#24ff92"></h3>
-            </div>
-          </div>
         </div>
     </div>
     <script type="text/javascript">
@@ -71,10 +71,10 @@
             game = new Game();
             game.start();
             SetCurrentNumber(game.currentNumber);
-            document.getElementById('divStart').style.visibility = 'collapse';
+            document.getElementById('divStart').style.visibility = 'Collapse';
             document.getElementById('divGameContent').style.visibility = 'visible';
-            document.getElementsByClassName('game-over')[0].style.visibility = 'collapse';
             document.getElementById('score').innerHTML = "Score: " + game.score;
+            document.getElementById('lives').innerHTML = "Misses allowed: " + game.lives;
         }
 
         function onChoose(option) {
@@ -93,12 +93,11 @@
             {
                 document.getElementById('divStart').style.visibility = 'visible';
                 document.getElementById('divGameContent').style.visibility = 'collapse';
-                document.getElementsByClassName('game-over')[0].style.visibility = 'visible';
-
-                localStorage.setItem('Results', JSON.stringify(game));
+                // localStorage.setItem('Results', JSON.stringify(game));
             }
 
             document.getElementById('score').innerHTML = "Score: " + game.score;
+            document.getElementById('lives').innerHTML = "Misses allowed: " + game.lives;
 
         }
 

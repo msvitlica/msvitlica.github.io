@@ -3,6 +3,9 @@ body {
   align-content: center;
 }
 
+.h1, h1{
+  font-size: 150px;
+}
 .game-over {
   color: white;
 }
@@ -12,7 +15,9 @@ body {
 }
 
 .option-button{
-  min-height:100px;
+  min-height:120px;
   text-align: center;
-  vertical-align: bottom;
+
+  vertical-align: middle;
+  font-size: 30px;
 }
