@@ -6,3 +6,13 @@ body {
 .game-over {
   color: white;
 }
+
+.span12{
+  color: white;
+}
+
+.option-button{
+  min-height:100px;
+  text-align: center;
+  vertical-align: bottom;
+}

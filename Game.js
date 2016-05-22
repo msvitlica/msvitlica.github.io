@@ -4,6 +4,7 @@ var Game = function(){
 	this.score = 0;
 	this.probability = 0;
 	this.probabilityScoore = 0;
+	this.lifes = 3;
 
 	this.compare = function compare(option, nextNumber)
 	{
@@ -31,24 +32,34 @@ var Game = function(){
 Game.prototype.start = function() {
   console.log("game started");
 
-this.currentNumber = this.generateNumber(77);
+	this.currentNumber = this.generateNumber(100);
+	this.nextNumber = this.generateNumber(100);
 
   console.log(currentNumber);
 };
 
 Game.prototype.gameStep = function(option)
 {
-	var nextNumber = this.generateNumber(77);
+	//var nextNumber = this.generateNumber(100);
 
-	if(this.compare(option, nextNumber))
+	if(this.compare(option, this.nextNumber))
 	{
 		this.score ++;
-		this.currentNumber = nextNumber;
-		return true;
+		this.currentNumber = this.nextNumber;
+		this.nextNumber = this.generateNumber(100);
+		return 1;
 	}
 	else
 	{
-		return false;
+		this.lifes --;
+		if(this.lifes > 0)
+		{
+		return 0;
+		}
+		else
+		{
+			return -1;
+		}
 	}
 
 }
