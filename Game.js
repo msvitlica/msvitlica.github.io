@@ -2,12 +2,12 @@ var GameSettings = function(){
 }
 
 GameSettings.maxNumber = 100;
-GameSettings.initialNumberOfLives = 3;
+GameSettings.initialNumberOfLives = 1;
 
 
 var Game = function()
 {
-	console.log("instance of game created");
+	console.log("instance of game created");	
 	this.currentNumber = 0;
 	this.score = 0;
 	this.probability = 0;
