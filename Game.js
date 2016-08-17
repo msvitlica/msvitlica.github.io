@@ -89,6 +89,8 @@ Game.prototype.gameStep = function(option)
 	{
 		if(this.lives > 0)
 		{
+		  	this.currentNumber = this.nextNumber;
+		  	this.nextNumber = this.generateNumber();
 				this.lives --;
 				return 0;
 		}

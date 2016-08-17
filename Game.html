@@ -72,6 +72,7 @@
             game = new Game();
             game.start();
             SetCurrentNumber(game.currentNumber);
+            document.getElementsByClassName('span12')[0].style.color = 'white';
             document.getElementById('divStart').style.visibility = 'Collapse';
             document.getElementById('divGameContent').style.visibility = 'visible';
             document.getElementById('score').innerHTML = "Score: " + game.score;
@@ -79,23 +80,45 @@
             document.getElementById('lives').innerHTML = "Misses allowed: " + game.lives;
         }
 
-        function onChoose(option) {
-            var result = game.gameStep(option);
+        function onChoose(option)
+        {
+          var result = game.gameStep(option);
 
-            if (result === 1)
-            {
-                document.getElementsByClassName('span12')[0].style.color = 'white';
+          if (result === 1)
+          {
                 SetCurrentNumber(game.currentNumber);
-            }
-            else if(result ===0)
+          }
+          else if(result ===0)
             {
               document.getElementsByClassName('span12')[0].style.color = 'red';
+
+              var audio = new Audio('media\\miss.wav');
+              audio.play();
+
+              var millisecondsToWait = 1000;
+
+              setTimeout(function() {
+                document.getElementsByClassName('span12')[0].style.color = 'white';
+                SetCurrentNumber(game.currentNumber);
+              },
+              millisecondsToWait);
             }
             else
             {
-                document.getElementById('divStart').style.visibility = 'visible';
-                document.getElementById('divGameContent').style.visibility = 'collapse';
-                // localStorage.setItem('Results', JSON.stringify(game));
+
+                document.getElementsByClassName('span12')[0].style.color = 'red';
+                var audio = new Audio('media\\miss.wav');
+                audio.play();
+
+                var millisecondsToWait = 1000;
+
+                setTimeout(function() {
+                  document.getElementById('divStart').style.visibility = 'visible';
+                  document.getElementById('divGameContent').style.visibility = 'collapse';
+                },
+                millisecondsToWait);
+
+
             }
 
             document.getElementById('score').innerHTML = "Score: " + game.score;
