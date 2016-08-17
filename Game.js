@@ -7,12 +7,14 @@ GameSettings.initialNumberOfLives = 1;
 
 var Game = function()
 {
-	console.log("instance of game created");	
+	console.log("instance of game created");
+
 	this.currentNumber = 0;
 	this.score = 0;
 	this.probability = 0;
-	this.probabilityScore = 0;
+	this.probabilityScore = 1;
 	this.lives = GameSettings.initialNumberOfLives;
+
 
 	this.compare = function compare(option, nextNumber)
 	{
@@ -31,17 +33,36 @@ var Game = function()
 		}
 	}
 
-	this.generateNumber = function(){
-		  return Math.floor((Math.random() * GameSettings.maxNumber)+1);
+	this.generateNumber = function()
+	{
+		  return Math.floor((Math.random() * GameSettings.maxNumber) + 1 );
+	}
 
+	this.calculateProbability = function()
+	{
+		var factor = 1;
+
+		if(this.currentNumber < this.nextNumber)
+		{
+			factor = GameSettings.maxNumber - this.currentNumber;
+		}
+		else
+		{
+			factor = this.currentNumber;
+		}
+
+		this.probability =  factor/GameSettings.maxNumber * 100;
 	}
 }
+
+
 
 Game.prototype.start = function() {
   console.log("game started");
 
 	this.currentNumber = this.generateNumber();
 	this.nextNumber = this.generateNumber();
+	this.calculateProbability();
 
   console.log(currentNumber);
 };
@@ -53,6 +74,15 @@ Game.prototype.gameStep = function(option)
 		this.score ++;
 		this.currentNumber = this.nextNumber;
 		this.nextNumber = this.generateNumber();
+
+		if(this.probability <= 10)
+		{
+			console.log("life awarded");
+			this.lives ++;
+		}
+
+		this.probabilityScore = this.probabilityScore * this.probability / 100;
+		this.calculateProbability();
 		return 1;
 	}
 	else

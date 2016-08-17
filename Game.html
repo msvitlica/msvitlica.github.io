@@ -21,6 +21,7 @@
           <div>
             <div style="align-content:rigth">
                 <h3 id="score" style="color:white;"></h3>
+                <h3 id="probabilityScore" style="color:blue"></h3>
             </div>
             <div style="align-content:left">
                 <h3 id="lives" style="color:#ff8d1e;"></h3>
@@ -74,6 +75,7 @@
             document.getElementById('divStart').style.visibility = 'Collapse';
             document.getElementById('divGameContent').style.visibility = 'visible';
             document.getElementById('score').innerHTML = "Score: " + game.score;
+            document.getElementById('probabilityScore').innerHTML = "Probability Score (less is better): " + game.probabilityScore;
             document.getElementById('lives').innerHTML = "Misses allowed: " + game.lives;
         }
 
@@ -98,6 +100,7 @@
 
             document.getElementById('score').innerHTML = "Score: " + game.score;
             document.getElementById('lives').innerHTML = "Misses allowed: " + game.lives;
+            document.getElementById('probabilityScore').innerHTML = "Probability Score (less is better): " + game.probabilityScore;
 
         }
 
