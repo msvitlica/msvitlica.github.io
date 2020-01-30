@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Administracija</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="questionModification.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="questionModification.js"></script>
+    <script src="main.js"></script>
+    <script src="http://wzrd.in/standalone/uuid%2Fv1@latest"></script>
+</head>
+
+<body class="container" onload="onLoad()">
+    <nav>
+        <a href="homePage.html">Početna strana</a>
+        <a href="administration.html">Administracija</a>
+    </nav>
+    <div class="contentWraper">
+        <div>
+            <div class="questionModifcation">
+                <h1>Administracija Pitanja</h1>
+                <a href="#" class="createQuestionBtn" onclick="popUpDialog()">Novo Pitanje</a>
+                <table id="questionTable" >
+                    <th>ID</th>
+                    <th>Tekst Pitanja</th>
+                    <th>Akcije</th>
+                </table>
+            </div>
+        </div>
+    </div>
+        <div id="questionMaker">
+           <div class="createQuestion">
+                <span id="closeBtn" class="close" onclick="closePopUp()">&times;</span>
+                <h3>Unesite tekst pitanja:</h3>
+                <textarea id="questionText" cols="50" rows="10" placeholder="Unesite tekst pitanja"></textarea>
+                <h3>Kategorija:</h3>
+                <select id="category" class="input-box">
+                    <option value="default" selected disabled>Izaberite Kategoriju</option>
+                    <option value="kategorija b">Kategorija B</option>
+                    <option value="kategorija c">Kategorija C</option>
+                    <option value="kategorija d">Kategorija D</option>
+                </select>
+                <h3>Slika:</h3>
+                <input type="text" class="input-box" id="questionPicture">
+                <h3>Odgovor:</h3>
+                <input type="text" class="input-box" id="questionAnswer">
+                <input type="checkbox" class="correct-box" id="correctAnswer">
+                <label>Tačan ?</label>
+                <button id="addAnswer" class="addAnswer" onclick="addAnswerInTable()">Dodaj odgovor</button>
+                <table id="answers" class="answersTable">
+                    <th>Odgovor</th>
+                    <th>Tačno?</th>
+                    <th>Akcije</th>
+                </table>
+                <br>
+                <button class="saveQuestion" onclick="addQuestion()">Sačuvaj Pitanje</button>
+          </div>
+        </div>
+        <div id="deleteQ_modalBox">
+            <div class="questionEraser">
+                <h3>Zelite li da obrisete ovo pitanje?</h3>
+                <button id="yes" class="eraseQuestion" onclick="onYeslClick()">DA</button>
+                <button class="eraseQuestion" onclick="closeModal()">NE</button>
+            </div>
+        </div>
+    
+</body>
+
+</html>
