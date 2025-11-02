@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kviz: Metalno doba</title>
+  <style>
+    body {font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 0; background: #f7f7fb; color: #222;}
+    header {background: #fff; border-bottom: 1px solid #e5e7eb; padding: 24px 16px; position: sticky; top: 0; z-index: 1;}
+    h1 {margin: 0; font-size: 1.4rem;}
+    main {max-width: 900px; margin: 24px auto 80px; padding: 0 16px;}
+    .card {background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; box-shadow: 0 1px 2px rgba(0,0,0,.04); margin-bottom: 16px;}
+    .muted {color: #6b7280; font-size: .95rem;}
+    .q {margin: 8px 0 12px; font-weight: 600;}
+    .opts label {display: block; padding: 8px 10px; border-radius: 10px; border: 1px solid #e5e7eb; margin-bottom: 8px; cursor: pointer;}
+    .opts input {margin-right: 8px;}
+    .btns {display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap;}
+    button {border: 1px solid #111827; background: #111827; color: #fff; padding: 10px 14px; border-radius: 10px; font-weight: 600; cursor: pointer;}
+    button.secondary {background: #fff; color: #111827;}
+    .result {font-weight: 700; font-size: 1.1rem; margin-top: 8px;}
+    .correct {border-color: #10b981 !important;}
+    .incorrect {border-color: #ef4444 !important;}
+    footer {position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #e5e7eb; padding: 10px 16px; display: flex; align-items: center; justify-content: center; gap: 12px;}
+    .pill {background: #f3f4f6; padding: 6px 10px; border-radius: 999px; font-size: .9rem;}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Kviz — „Метално доба”</h1>
+    <div class="muted">Заокружи тачан одговор, затим кликни на „Провери резултат”.</div>
+  </header>
+
+  <main id="app"></main>
+
+  <footer>
+    <div class="pill"><span id="progress">0 / 12 одговорено</span></div>
+    <div class="pill"><span id="score">Резултат: —</span></div>
+  </footer>
+
+<script>
+const questions = [
+  {
+    q: "1) Која су три периода металног доба?",
+    a: ["Бакарно, бронзано и гвоздено доба", "Камено, дрвено и гвоздено доба", "Неолит, енеолит и бронзано доба", "Медно, сребрно и златно доба"],
+    correct: 0
+  },
+  {
+    q: "2) Зашто бакар није био најпогоднији за израду оруђа?",
+    a: ["Премасиван је", "Тешко се топи", "Меко је и лако се ломи у поређењу са каменом/бронзом", "Није се могао ковати"],
+    correct: 2
+  },
+  {
+    q: "3) Шта је бронза?",
+    a: ["Чисто гвожђе", "Смеса злата и сребра", "Легура бакра и калаја (и других метала)", "Камен који личи на метал"],
+    correct: 2
+  },
+  {
+    q: "4) Који метал потискује бакар за израду оруђа и оружја?",
+    a: ["Гвожђе", "Сребро", "Злато", "Олово"],
+    correct: 0
+  },
+  {
+    q: "5) Шта се дешава са појавом обраде метала у друштву?",
+    a: ["Људи се враћају ловачком начину живота", "Развијају се занати и трговина", "Престаје размена добара", "Писмо нестаје"],
+    correct: 1
+  },
+  {
+    q: "6) Који су типични занати у металном добу?",
+    a: ["Рибари и пастири", "Керамичари, ткачи, ковачи", "Писари и лекари", "Рудари и краљеви"],
+    correct: 1
+  },
+  {
+    q: "7) Која важна техничка новина убрзава превоз и трговину?",
+    a: ["Лук и стрела", "Точак", "Кукица за риболов", "Плуг из каменог доба"],
+    correct: 1
+  },
+  {
+    q: "8) Како се најчешће обављала трговина у раном металном добу?",
+    a: ["Кредитним картицама", "Новацем од папира", "Трампом — разменом робе за робу", "Искључиво златним новцем"],
+    correct: 2
+  },
+  {
+    q: "9) Који је редослед употребе метала у праисторији (поједностављено)?",
+    a: ["Гвожђе → бакар → бронза", "Бакар → бронза → гвожђе", "Бронза → бакар → гвожђе", "Сребро → злато → бакар"],
+    correct: 1
+  },
+  {
+    q: "10) Где се рано развијају обрада метала и прве високе културе које уводе писмо?",
+    a: ["Мезоамерика", "Аустралија", "Месопотамија и источни Медитеран", "Скандинавија"],
+    correct: 2
+  },
+  {
+    q: "11) Шта су људи радили са металом да би добили нове облике оруђа и украса?",
+    a: ["Само су га хладно савијали", "Топили, лили у калупе и ковали", "Само су га фарбали", "Само су га оштрили камењем"],
+    correct: 1
+  },
+  {
+    q: "12) Који су племенити метали се рано користе углавном за украсе?",
+    a: ["Олово и калај", "Гвожђе и бакар", "Злато и сребро", "Никл и титан"],
+    correct: 2
+  }
+];
+
+const app = document.getElementById('app');
+const progressEl = document.getElementById('progress');
+const scoreEl = document.getElementById('score');
+
+function render() {
+  questions.forEach((item, idx) => {
+    const card = document.createElement('section');
+    card.className = 'card';
+    const q = document.createElement('div');
+    q.className = 'q';
+    q.textContent = item.q;
+    const opts = document.createElement('div');
+    opts.className = 'opts';
+    item.a.forEach((opt, i) => {
+      const id = `q${idx}_a${i}`;
+      const label = document.createElement('label');
+      label.setAttribute('for', id);
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = `q${idx}`;
+      input.id = id;
+      input.value = i;
+      input.addEventListener('change', updateProgress);
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(opt));
+      opts.appendChild(label);
+    });
+    const btns = document.createElement('div');
+    btns.className = 'btns';
+    const checkBtn = document.createElement('button');
+    checkBtn.textContent = 'Провери резултат';
+    checkBtn.addEventListener('click', () => check(card, idx));
+    const resetBtn = document.createElement('button');
+    resetBtn.textContent = 'Обриши одговор';
+    resetBtn.className = 'secondary';
+    resetBtn.addEventListener('click', () => resetQ(card, idx));
+    btns.appendChild(checkBtn);
+    btns.appendChild(resetBtn);
+    const result = document.createElement('div');
+    result.className = 'result muted';
+    result.id = `res_${idx}`;
+    card.appendChild(q);
+    card.appendChild(opts);
+    card.appendChild(btns);
+    card.appendChild(result);
+    app.appendChild(card);
+  });
+}
+
+function updateProgress() {
+  const answered = [...document.querySelectorAll('input[type="radio"]:checked')]
+    .map(i => i.name).filter((v, i, a) => a.indexOf(v) === i).length;
+  progressEl.textContent = `${answered} / ${questions.length} одговорено`;
+}
+
+function check(card, idx) {
+  const chosen = card.querySelector('input[type="radio"]:checked');
+  const res = document.getElementById(`res_${idx}`);
+  [...card.querySelectorAll('.opts label')].forEach(l => {
+    l.classList.remove('correct','incorrect');
+  });
+  if (!chosen) {
+    res.textContent = 'Одабери одговор.';
+    return;
+  }
+  const val = Number(chosen.value);
+  const labels = [...card.querySelectorAll('.opts label')];
+  labels[val].classList.add(val === questions[idx].correct ? 'correct' : 'incorrect');
+  labels[questions[idx].correct].classList.add('correct');
+  res.textContent = val === questions[idx].correct ? 'Тачно! ✅' : 'Нетачно. Погледај означени тачан одговор.';
+  updateScore();
+}
+
+function resetQ(card, idx) {
+  card.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
+  card.querySelectorAll('.opts label').forEach(l => l.classList.remove('correct','incorrect'));
+  const res = document.getElementById(`res_${idx}`);
+  res.textContent = '';
+  updateProgress();
+  updateScore();
+}
+
+function updateScore() {
+  let score = 0;
+  document.querySelectorAll('section.card').forEach((card, idx) => {
+    const chosen = card.querySelector('input[type="radio"]:checked');
+    if (chosen && Number(chosen.value) === questions[idx].correct) score++;
+  });
+  scoreEl.textContent = `Резултат: ${score} / ${questions.length}`;
+}
+
+render();
+</script>
+</body>
+</html>
