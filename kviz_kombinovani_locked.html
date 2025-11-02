@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Locked Quiz — Seoske opštine & Metalno doba</title>
+  <style>
+    :root{--bg:#f7f7fb;--card:#fff;--muted:#6b7280;--accent:#111827}
+    body{font-family:system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial; margin:0; background:var(--bg); color:#111}
+    header{background:var(--card);border-bottom:1px solid #e6e6ea;padding:18px 16px;position:sticky;top:0;z-index:3}
+    h1{margin:0;font-size:1.2rem}
+    main{max-width:1000px;margin:24px auto;padding:0 16px 120px}
+    .card{background:var(--card);border:1px solid #e6e6ea;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+    .section-title{font-weight:700;margin-bottom:8px}
+    .muted{color:var(--muted);font-size:.95rem;margin-bottom:8px}
+    .q{font-weight:600;margin:10px 0}
+    .opts label{display:block;padding:8px;border-radius:9px;border:1px solid #eef0f2;margin-bottom:8px;cursor:pointer}
+    .opts input{margin-right:8px}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    button{background:var(--accent);color:#fff;border:0;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+    button.secondary{background:#fff;color:var(--accent);border:1px solid var(--accent)}
+    footer{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid #e6e6ea;padding:10px 16px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .pill{background:#f3f4f6;padding:6px 10px;border-radius:999px;font-size:.95rem}
+    .result{margin-top:8px;font-weight:700}
+    .correct{outline:3px solid #10b981;padding:6px;border-radius:8px}
+    .incorrect{outline:3px solid #ef4444;padding:6px;border-radius:8px}
+    .hidden{display:none!important}
+    .pwd-row{display:flex;gap:8px;align-items:center;margin-top:8px}
+    input[type="password"], input[type="text"]{padding:8px;border-radius:8px;border:1px solid #d0d5db}
+    .note{font-size:.9rem;color:var(--muted);margin-top:6px}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Kombinovani kviz — <span style="font-weight:600">Сеоске општине</span> & <span style="font-weight:600">Метално доба</span></h1>
+    <div class="muted">Odgovori slobodno na sva pitanja. Provera je zaključana lozinkom.</div>
+  </header>
+
+  <main id="app">
+    <!-- Quiz 1: Seoske opštine (10) -->
+    <section class="card" id="quiz_seoske">
+      <div class="section-title">Kviz 1 — Сеоске општине и класно друштво (10 pitanja)</div>
+      <div class="muted">Zaokruži odgovor. Provera je moguća tek posle unosa lozinke na dnu stranice.</div>
+    </section>
+
+    <!-- Quiz 2: Metalno doba (12) -->
+    <section class="card" id="quiz_metalno">
+      <div class="section-title">Kviz 2 — Метално доба (12 pitanja)</div>
+      <div class="muted">Zaokruži odgovor. Provera je moguća tek posle unosa lozinke na dnu stranice.</div>
+    </section>
+
+    <!-- Submit area -->
+    <section class="card">
+      <div class="section-title">Provera odgovora (zaključano lozinkom)</div>
+      <div>Da bi proverio/la odgovore i video/la tačne/netečne odgovore, unesi lozinku i klikni "Otključaj i proveri".</div>
+      <div class="pwd-row" style="margin-top:10px;">
+        <input id="pwd" type="password" placeholder="Unesi lozinku" aria-label="lozinka"/>
+        <button id="unlock">Otključaj i proveri</button>
+        <button id="relock" class="secondary hidden">Zaključa</button>
+      </div>
+      <div id="unlockMsg" class="note"></div>
+      <div id="finalResult" class="result hidden"></div>
+      <div class="note">Lozinka je sakrivena (ne prikazuj je nikome). Ako ne znaš lozinku, ne možeš proveriti odgovore.</div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="pill" id="progress">Odgovoreno: 0 / 22</div>
+    <div class="pill" id="score">Rezultat: —</div>
+  </footer>
+
+<script>
+/* ---------- Questions data (combined) ---------- */
+/* Quiz 1 (10) */
+const q1 = [
+  {q:"Како се мењао начин живота људи у неолитском периоду?", a:["Преlаз са седелаца на номадски живот","Почињу да се стално селе","Преlазе са номадског на седелачки живот","Почели да живе у пећинама"], correct:2},
+  {q:"Које нове заједнице настају развојем земљорадње и сточарства?", a:["Градови и државе","Породица, род, братство, племе","Војске и трговине","Царства и краљевства"], correct:1},
+  {q:"На чему су се заснивале те заједнице?", a:["На крвном сродству","На трговању и раду","На писању уговора","На војним савезима"], correct:0},
+  {q:"Како се назива друштво у којем сви чланови имају подједнака права и обавезе?", a:["Патријархално друштво","Друштво једнаких","Класно друштво","Племенско царство"], correct:1},
+  {q:"Како је била подељена радна улога у родовском друштву?", a:["Мушкарци су ловци и штитили род од непријатеља; жене су брinуле о земљи и породици","Жене су само ловиле","Сви су радили у продавницама","Сви су били ратници"], correct:0},
+  {q:"Коју улогу су имале жене у родовском друштву?", a:["Ниjе имали никакву улогу","Имале су важну улогу — бринуле о породици и повезане са земљом","Бавиле су се само ратовањем","Биле су искључиво пастирке"], correct:1},
+  {q:"Шта значи полигамија?", a:["Брачна веза у којој један човек има више жена или једна жена више мужа","Моногамија","Племенски савез","Друштвени уговор"], correct:0},
+  {q:"Како су деца углавном живела у родовском друштву?", a:["Са оцем","Са мајком","Само у сиротишту","Код комшија"], correct:1},
+  {q:"Шта је матријархат (поједностављено)?", a:["Друштво у којем доминирају жене","Друштво без правила","Друштво са царем","Племе без имена"], correct:0},
+  {q:"Зашто историчари нису нашли одговоре који потврђују да је матријархат постојао?", a:["Нема довољно писања из тог периода које би то доказало","Постоји велики број доказа које су сакрили","Сви смо заборавили","Постоје само митови"], correct:0}
+];
+
+/* Quiz 2 (12) */
+const q2 = [
+  {q:"Која су три периода металног доба (поједностављено)?", a:["Бакарно, бронзано и гвоздено доба","Камено, дрвено и гвоздено","Неолит, енеолит, бронза","Медно, сребрно, златно"], correct:0},
+  {q:"Који метал су људи раније користили али је био слаб за оружје?", a:["Бакар","Гвожђе","Злато","Олово"], correct:0},
+  {q:"Шта је бронза?", a:["Чисто гвожђе","Легура бакра и калаја","Камен", "Смола"], correct:1},
+  {q:"Који метал је заменио бронзу у изради оружја и оруђа?", a:["Злато","Гвожђе","Сребро","Олово"], correct:1},
+  {q:"Која нова занимања се појављују са обрадом метала?", a:["Керамичари, ткачи, ковачи","Само ловци","Само земљорадници","Писари и свећеници"], correct:0},
+  {q:"Шта је требало да би се стварала бронза?", a:["Само бакар","Бакар помешан са калајем (легура)","Само гвожђе","Камен"], correct:1},
+  {q:"Која техничка иновација убрзава превоз и трговину?", a:["Точак","Лук и стрела","Плуг","Риболовна мрежа"], correct:0},
+  {q:"Како се често обављала трговина у раном металном добу?", a:["Кројене картице","Трампом (размена робе за робу)","Бацањем костију","Папирним новцем"], correct:1},
+  {q:"Како су људи обрађивали метале да би правили оруђе?", a:["Топили, лили у калупе и ковали","Само фарбали","Само ломили камење","Само бацали"], correct:0},
+  {q:"Који метали су се рано користили за украсе?", a:["Злато и сребро","Гвожђе и олова","Калај и бакар","Платина и никл"], correct:0},
+  {q:"Редослед употребе (поједностављено) у праисторији је:", a:["Гвожђе → бронза → бакар","Бакар → бронза → гвожђе","Бронза → бакар → гвожђе","Злато → сребро → бакар"], correct:1},
+  {q:"Где су рано развијене технике обраде метала и писмо?", a:["Месопотамија и источни Медитеран","Северна Европа","Аустралија","Јужна Америка"], correct:0}
+];
+
+/* Combine into one array for rendering and scoring */
+const allQs = q1.concat(q2);
+
+/* ---------- Render questions ---------- */
+function renderQuiz() {
+  const q1container = document.getElementById('quiz_seoske');
+  const q2container = document.getElementById('quiz_metalno');
+
+  function makeCard(item, index) {
+    const div = document.createElement('div');
+    div.className = 'qblock';
+    const qel = document.createElement('div');
+    qel.className = 'q';
+    qel.textContent = (index+1) + ") " + item.q;
+    div.appendChild(qel);
+    const opts = document.createElement('div');
+    opts.className = 'opts';
+    item.a.forEach((opt,i) => {
+      const id = `q${index}_a${i}`;
+      const label = document.createElement('label');
+      label.setAttribute('for', id);
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = `q${index}`;
+      input.id = id;
+      input.value = i;
+      input.addEventListener('change', updateProgress);
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(opt));
+      opts.appendChild(label);
+    });
+    div.appendChild(opts);
+    return div;
+  }
+
+  allQs.forEach((item, idx) => {
+    const card = makeCard(item, idx);
+    if (idx < q1.length) q1container.appendChild(card);
+    else q2container.appendChild(card);
+  });
+}
+
+function updateProgress(){
+  const answered = [...document.querySelectorAll('input[type="radio"]:checked')]
+    .map(i => i.name).filter((v,i,a)=> a.indexOf(v)===i).length;
+  document.getElementById('progress').textContent = `Odgovoreno: ${answered} / ${allQs.length}`;
+}
+
+/* ---------- Password lock logic ---------- */
+/* The hidden password (provided by you) */
+const HIDDEN_PASSWORD = "1267"; // kept in JS (not displayed). Do not share this on-screen.
+
+const unlockBtn = document.getElementById('unlock');
+const relockBtn = document.getElementById('relock');
+const pwdInput = document.getElementById('pwd');
+const unlockMsg = document.getElementById('unlockMsg');
+const finalResult = document.getElementById('finalResult');
+const scoreEl = document.getElementById('score');
+
+unlockBtn.addEventListener('click', () => {
+  const val = pwdInput.value.trim();
+  if (!val) {
+    unlockMsg.textContent = "Unesi lozinku da otključaš proveru.";
+    return;
+  }
+  if (val === HIDDEN_PASSWORD) {
+    unlockMsg.textContent = "Otključano — proveravam odgovore...";
+    // evaluate
+    evaluateAll();
+    // switch buttons
+    unlockBtn.classList.add('hidden');
+    relockBtn.classList.remove('hidden');
+    pwdInput.type = 'password';
+  } else {
+    unlockMsg.textContent = "Pogrešna lozinka. Pokušaj ponovo.";
+  }
+});
+
+relockBtn.addEventListener('click', () => {
+  // hide results and allow re-answering without showing correct marks
+  [...document.querySelectorAll('.opts label')].forEach(l=> {
+    l.classList.remove('correct','incorrect');
+  });
+  finalResult.classList.add('hidden');
+  unlockMsg.textContent = "Provera je zaključana ponovo.";
+  unlockBtn.classList.remove('hidden');
+  relockBtn.classList.add('hidden');
+  scoreEl.textContent = "Rezultat: —";
+});
+
+function evaluateAll(){
+  let correctCount = 0;
+  allQs.forEach((item, idx) => {
+    const chosen = document.querySelector(`input[name="q${idx}"]:checked`);
+    const labels = [...document.querySelectorAll(`input[name="q${idx}"]`)].map(i=>i.parentElement);
+    // clear previous classes
+    labels.forEach(l=> l.classList.remove('correct','incorrect'));
+    if (chosen) {
+      const val = Number(chosen.value);
+      if (val === item.correct) {
+        labels[val].classList.add('correct');
+        correctCount++;
+      } else {
+        labels[val].classList.add('incorrect');
+        labels[item.correct].classList.add('correct');
+      }
+    } else {
+      // show correct answer even if not answered
+      labels[item.correct].classList.add('correct');
+    }
+  });
+  finalResult.textContent = `Tvoj konačni rezultat: ${correctCount} / ${allQs.length}`;
+  finalResult.classList.remove('hidden');
+  scoreEl.textContent = `Rezultat: ${correctCount} / ${allQs.length}`;
+  unlockMsg.textContent = "Provera završena — tačni odgovori su označeni zeleno.";
+}
+
+/* initial render */
+renderQuiz();
+updateProgress();
+</script>
+</body>
+</html>
