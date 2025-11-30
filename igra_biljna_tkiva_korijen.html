@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <title>Biologija igra – Biljna tkiva i korijen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --green-main: #2e8b57;
+      --green-light: #e6f6ec;
+      --red: #e63946;
+      --yellow: #ffb703;
+      --bg: #f5f7fb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: #222;
+    }
+
+    header {
+      background: var(--green-main);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 5px;
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 20px auto 40px;
+      padding: 20px;
+    }
+
+    .game-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      padding: 20px 20px 24px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .xp-wrapper {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .xp-label {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .xp-bar {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: #dde5f5;
+      overflow: hidden;
+    }
+
+    .xp-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #8dd17e, #2e8b57);
+      transition: width 0.3s ease;
+    }
+
+    .hearts {
+      font-size: 1.5rem;
+      min-width: 110px;
+      text-align: right;
+    }
+
+    .heart-lost {
+      opacity: 0.25;
+    }
+
+    .question-counter {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      color: #555;
+    }
+
+    .question-text {
+      font-size: 1.1rem;
+      margin-bottom: 14px;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .option-btn {
+      border-radius: 999px;
+      border: 2px solid #d0ddf3;
+      background: #fff;
+      padding: 10px 14px;
+      font-size: 0.98rem;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.05s;
+    }
+
+    .option-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--green-main);
+    }
+
+    .option-btn.correct {
+      background: var(--green-light);
+      border-color: var(--green-main);
+      font-weight: bold;
+    }
+
+    .option-btn.incorrect {
+      background: #ffe5e8;
+      border-color: var(--red);
+    }
+
+    .option-btn.disabled {
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    .feedback {
+      min-height: 40px;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .feedback.correct {
+      color: var(--green-main);
+    }
+
+    .feedback.incorrect {
+      color: var(--red);
+    }
+
+    .bottom-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .score-label {
+      font-size: 0.95rem;
+    }
+
+    .primary-btn {
+      background: var(--yellow);
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .primary-btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .final-screen {
+      margin-top: 20px;
+      padding: 16px 18px;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      display: none;
+    }
+
+    .final-screen h2 {
+      margin-top: 0;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #e7f2ff;
+      font-size: 0.85rem;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 10px;
+      }
+      .game-card {
+        padding: 16px 14px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Biljna tkiva i korijen – mini igra</h1>
+  <p>Duolingo stil: skupljaj XP, čuvaj srca i savladaj lekciju!</p>
+</header>
+
+<main>
+  <div class="game-card">
+    <div class="top-bar">
+      <div class="xp-wrapper">
+        <div class="xp-label">
+          <span>XP: <span id="xp-value">0</span></span>
+          <span>Pitanje <span id="q-index">1</span>/<span id="q-total">0</span></span>
+        </div>
+        <div class="xp-bar">
+          <div class="xp-fill" id="xp-fill"></div>
+        </div>
+      </div>
+      <div class="hearts" id="hearts">
+        ❤️ ❤️ ❤️
+      </div>
+    </div>
+
+    <div class="question-counter" id="section-label"></div>
+    <div class="question-text" id="question-text"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+
+    <div class="bottom-bar">
+      <div class="score-label">
+        Trenutni rezultat: <strong><span id="score">0</span></strong>
+      </div>
+      <button class="primary-btn" id="next-btn" disabled>Sljedeće ➜</button>
+    </div>
+  </div>
+
+  <div class="final-screen" id="final-screen">
+    <h2>🎉 Kraj lekcije!</h2>
+    <p>Osvojio/la si ukupno <strong><span id="final-score"></span></strong> poena i <strong><span id="final-xp"></span> XP</strong>.</p>
+    <p id="final-message"></p>
+    <p>
+      <span class="tag">Biljna tkiva</span>
+      <span class="tag">Biljni organi</span>
+      <span class="tag">Korijen</span>
+      <span class="tag">Tipovi korijena</span>
+    </p>
+    <button class="primary-btn" onclick="restartGame()">Igraj ponovo 🔁</button>
+  </div>
+</main>
+
+<script>
+  const questions = [
+    {
+      section: "Biljna tkiva",
+      text: "Kako se zovu tkiva čije se ćelije stalno dijele i omogućavaju rast biljke u visinu i dužinu?",
+      options: ["Trajna tkiva", "Tvorna (meristematska) tkiva", "Žljezdana tkiva", "Potporna tkiva"],
+      correctIndex: 1,
+      xp: 10,
+      explanation: "Tvorna tkiva imaju ćelije koje se stalno dijele i iz njih nastaju sva ostala tkiva."
+    },
+    {
+      section: "Biljna tkiva",
+      text: "Koja grupa tkiva nastaje iz tvornih tkiva i ne dijeli se više stalno?",
+      options: ["Trajna tkiva", "Živčana tkiva", "Mišićna tkiva", "Probavna tkiva"],
+      correctIndex: 0,
+      xp: 10,
+      explanation: "Trajna tkiva nastaju iz tvornih tkiva i obavljaju posebne uloge u biljci."
+    },
+    {
+      section: "Provodno tkivo",
+      text: "Koja je glavna uloga provodnog tkiva?",
+      options: [
+        "Da štiti biljku od spoljne sredine",
+        "Da skladišti rezerve hrane",
+        "Da provodi vodu i mineralne materije, kao i organske materije kroz biljku",
+        "Da privlači insekte mirisom"
+      ],
+      correctIndex: 2,
+      xp: 12,
+      explanation: "Provodno tkivo vodi vodu i mineralne materije od korijena ka listovima, a organske materije u suprotnom smjeru."
+    },
+    {
+      section: "Pokrovno tkivo",
+      text: "Koje tkivo čini zaštitni sloj ćelija koji pokriva spoljašnju površinu biljke?",
+      options: ["Pokrovno tkivo", "Osnovno tkivo", "Potporno tkivo", "Žljezdano tkivo"],
+      correctIndex: 0,
+      xp: 8,
+      explanation: "Pokrovno tkivo obavija biljku i štiti je od spoljašnjih uticaja."
+    },
+    {
+      section: "Osnovno tkivo",
+      text: "Gdje se pretežno nalazi osnovno tkivo?",
+      options: [
+        "Samo u korijenu",
+        "U unutrašnjosti listova, stabla i korijena – ispunjava veći dio biljke",
+        "Samo u plodovima",
+        "Samo u cvijetu"
+      ],
+      correctIndex: 1,
+      xp: 8,
+      explanation: "Osnovno tkivo ispunjava unutrašnjost mnogih organa i čini većinu mase biljke."
+    },
+    {
+      section: "Potporno i žljezdano tkivo",
+      text: "Koje tkivo daje čvrstinu i elastičnost biljkama?",
+      options: ["Potporno (mehaničko) tkivo", "Pokrovno tkivo", "Žljezdano tkivo", "Tvorno tkivo"],
+      correctIndex: 0,
+      xp: 10,
+      explanation: "Potporno ili mehaničko tkivo izgrađeno je od ćelija koje biljkama daju čvrstinu i otpornost."
+    },
+    {
+      section: "Potporno i žljezdano tkivo",
+      text: "Šta je karakteristično za žljezdano tkivo?",
+      options: [
+        "Provodi vodu",
+        "Luči različite materije poput nektara, eteričnih ulja ili smole",
+        "Skuplja sunčevu svjetlost",
+        "Učestvuje u fotosintezi"
+      ],
+      correctIndex: 1,
+      xp: 10,
+      explanation: "Žljezdano tkivo luči nektar, eterična ulja, smolu i druge supstance."
+    },
+    {
+      section: "Biljni organi",
+      text: "Koji biljni organi spadaju u vegetativne organe?",
+      options: [
+        "Cvijet, plod i sjeme",
+        "Korijen, stablo i list",
+        "Samo list",
+        "Samo korijen"
+      ],
+      correctIndex: 1,
+      xp: 12,
+      explanation: "Vegetativni organi služe za ishranu i održavanje života biljke – to su korijen, stablo i list."
+    },
+    {
+      section: "Biljni organi",
+      text: "Koji organi spadaju u generativne (reproduktivne) organe biljke?",
+      options: [
+        "Korijen i stablo",
+        "List i korijen",
+        "Cvijet, plod i sjeme",
+        "Samo cvijet"
+      ],
+      correctIndex: 2,
+      xp: 12,
+      explanation: "Generativni organi učestvuju u razmnožavanju – cvijet, plod i sjeme."
+    },
+    {
+      section: "Korijen – građa",
+      text: "Koja je osnovna uloga korijena?",
+      options: [
+        "Da vrši fotosintezu umjesto lista",
+        "Da pričvršćuje biljku za podlogu i usvaja vodu i mineralne materije",
+        "Da stvara cvjetove",
+        "Da štiti biljku od hladnoće"
+      ],
+      correctIndex: 1,
+      xp: 12,
+      explanation: "Korijen učvršćuje biljku za podlogu i usvaja vodu i mineralne materije iz zemljišta."
+    },
+    {
+      section: "Korijen – građa",
+      text: "Kako se zove zona sitnih izdanaka koja povećava površinu korijena i upija vodu?",
+      options: [
+        "Korjenova kapa",
+        "Zona rasta",
+        "Zona korjenovih dlačica",
+        "Kora stabla"
+      ],
+      correctIndex: 2,
+      xp: 10,
+      explanation: "Korjenove dlačice povećavaju površinu korijena i upijaju vodu i rastvorene mineralne materije."
+    },
+    {
+      section: "Tipovi korijena",
+      text: "Kako nazivamo korijen kod kojeg postoji jedan glavni korijen iz koga se granaju bočni korjenovi (npr. mrkva)?",
+      options: [
+        "Žiličast korijen",
+        "Osovinski korijen",
+        "Vazdušni korijen",
+        "Adventivni korijen"
+      ],
+      correctIndex: 1,
+      xp: 12,
+      explanation: "Osovinski tip korijena ima glavni korijen iz koga se granaju bočni – tipičan za dvokotiledone biljke poput mrkve."
+    },
+    {
+      section: "Tipovi korijena",
+      text: "Koji je primjer žiličastog tipa korijena?",
+      options: [
+        "Mrkva",
+        "Cvekla",
+        "Pšenica ili trava",
+        "Repa"
+      ],
+      correctIndex: 2,
+      xp: 12,
+      explanation: "Žiličast korijen ima mnogo korjenova slične debljine – tipičan za trave, pšenicu, kukuruz."
+    }
+  ];
+
+  const state = {
+    current: 0,
+    score: 0,
+    xp: 0,
+    hearts: 3,
+    answered: false
+  };
+
+  const qText = document.getElementById('question-text');
+  const optionsDiv = document.getElementById('options');
+  const feedbackDiv = document.getElementById('feedback');
+  const scoreSpan = document.getElementById('score');
+  const xpSpan = document.getElementById('xp-value');
+  const xpFill = document.getElementById('xp-fill');
+  const qIndexSpan = document.getElementById('q-index');
+  const qTotalSpan = document.getElementById('q-total');
+  const sectionLabel = document.getElementById('section-label');
+  const heartsDiv = document.getElementById('hearts');
+  const nextBtn = document.getElementById('next-btn');
+  const finalScreen = document.getElementById('final-screen');
+  const finalScoreSpan = document.getElementById('final-score');
+  const finalXpSpan = document.getElementById('final-xp');
+  const finalMessage = document.getElementById('final-message');
+
+  qTotalSpan.textContent = questions.length;
+
+  function renderHearts() {
+    let heartsHtml = '';
+    for (let i = 0; i < 3; i++) {
+      heartsHtml += `<span class="${i < state.hearts ? '' : 'heart-lost'}">❤️</span> `;
+    }
+    heartsDiv.innerHTML = heartsHtml;
+  }
+
+  function renderQuestion() {
+    const q = questions[state.current];
+    sectionLabel.textContent = `Tema: ${q.section}`;
+    qText.textContent = q.text;
+    qIndexSpan.textContent = state.current + 1;
+    feedbackDiv.textContent = '';
+    feedbackDiv.className = 'feedback';
+    optionsDiv.innerHTML = '';
+    nextBtn.disabled = true;
+    state.answered = false;
+
+    q.options.forEach((opt, index) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => handleAnswer(index, btn));
+      optionsDiv.appendChild(btn);
+    });
+
+    // update progress bar
+    const progress = (state.current / questions.length) * 100;
+    xpFill.style.width = `${progress}%`;
+    xpSpan.textContent = state.xp;
+    scoreSpan.textContent = state.score;
+    renderHearts();
+  }
+
+  function handleAnswer(index, btn) {
+    if (state.answered) return;
+    const q = questions[state.current];
+    state.answered = true;
+
+    const optionButtons = document.querySelectorAll('.option-btn');
+    optionButtons.forEach(b => b.classList.add('disabled'));
+
+    if (index === q.correctIndex) {
+      btn.classList.add('correct');
+      feedbackDiv.textContent = 'Tačno! ' + q.explanation;
+      feedbackDiv.classList.add('correct');
+      const gainedXp = q.xp;
+      state.score += 10;
+      state.xp += gainedXp;
+    } else {
+      btn.classList.add('incorrect');
+      optionButtons[q.correctIndex].classList.add('correct');
+      feedbackDiv.textContent = 'Nije tačno. ' + q.explanation;
+      feedbackDiv.classList.add('incorrect');
+      state.hearts -= 1;
+      if (state.hearts < 0) state.hearts = 0;
+    }
+
+    // update bars/hearts
+    const progress = ((state.current + 1) / questions.length) * 100;
+    xpFill.style.width = `${progress}%`;
+    xpSpan.textContent = state.xp;
+    scoreSpan.textContent = state.score;
+    renderHearts();
+
+    // enable next button
+    nextBtn.disabled = false;
+
+    // ako su sva srca izgubljena – završetak
+    if (state.hearts === 0) {
+      nextBtn.textContent = 'Prikaži rezultat';
+    } else {
+      nextBtn.textContent = state.current === questions.length - 1 ? 'Završi igru' : 'Sljedeće ➜';
+    }
+  }
+
+  function showFinalScreen() {
+    const maxScore = questions.length * 10;
+    finalScoreSpan.textContent = `${state.score} / ${maxScore}`;
+    finalXpSpan.textContent = state.xp;
+
+    let msg = '';
+    const percent = (state.score / maxScore) * 100;
+    if (percent === 100) {
+      msg = 'Fenomenalno! Spreman/na si da objasniš svima kako funkcionišu biljna tkiva i korijen.';
+    } else if (percent >= 70) {
+      msg = 'Odlično znanje! Još malo vježbe i bićeš pravi stručnjak za biljne organe.';
+    } else if (percent >= 40) {
+      msg = 'Dobar početak! Prođi još jednom kroz pitanja i probaj ponovo.';
+    } else {
+      msg = 'Treba još vježbe, ali nema veze – odigraj ponovo i biće bolje svaki put!';
+    }
+    finalMessage.textContent = msg;
+
+    finalScreen.style.display = 'block';
+    finalScreen.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if (state.hearts === 0 || state.current === questions.length - 1) {
+      showFinalScreen();
+    } else {
+      state.current += 1;
+      renderQuestion();
+    }
+  });
+
+  function restartGame() {
+    state.current = 0;
+    state.score = 0;
+    state.xp = 0;
+    state.hearts = 3;
+    state.answered = false;
+    finalScreen.style.display = 'none';
+    nextBtn.textContent = 'Sljedeće ➜';
+    renderQuestion();
+    document.querySelector('.game-card').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  window.restartGame = restartGame;
+
+  // inicijalno pokretanje
+  renderQuestion();
+</script>
+</body>
+</html>
