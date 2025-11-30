@@ -1,0 +1,70 @@
+<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Igra – Alge, gljive, lišajevi</title><meta name='viewport' content='width=device-width, initial-scale=1'>
+<style>
+body{font-family:Arial;background:#eef2f7;padding:20px;}
+#game{max-width:600px;margin:auto;background:white;padding:20px;border-radius:10px;box-shadow:0 0 10px #999;}
+.btn{padding:10px 20px;margin:5px;background:#4caf50;color:white;border:none;border-radius:6px;font-size:16px;}
+.opt{display:block;padding:10px;margin:8px 0;background:#fff3cd;border-radius:6px;cursor:pointer;}
+.correct{background:#6fdc6f !important;}
+.wrong{background:#ff6b6b !important;}
+.hide{display:none;}
+</style>
+</head><body>
+<div id='game'>
+<h2>🌿 Igra: Alge, gljive i lišajevi (teži nivo)</h2>
+<p id='xp'>XP: 0</p>
+<p id='hearts'>❤️❤️❤️</p>
+<p id='q'></p>
+<div id='opts'></div>
+<button id='next' class='btn hide'>Dalje</button>
+<button id='retry' class='btn hide'>Igraj ponovo</button>
+</div>
+<script>
+const questions=[
+{q:'Koje alge sadrže najveću količinu hlorofila?',opts:['Zelene','Mrke','Crvene'],a:0},
+{q:'Koje alge najčešće naseljavaju hladna mora?',opts:['Crvene','Mrke','Zelene'],a:1},
+{q:'Gljive se NE svrstavaju u biljke jer?',opts:['Nemaju hlorofil','Ne mogu da se kreću','Nemaju ćelijski zid'],a:0},
+{q:'Šta su saprofiti?',opts:['Razlažu uginule organizme','Žive na listovima biljaka','Razmnožavaju se pupanjem'],a:0},
+{q:'Pekuška je:',opts:['Crvena alga','Vrsta jestive gljive','Parazitska gljiva'],a:1},
+{q:'Lišajevi predstavljaju zajednicu:',opts:['Gljive i alge','Biljaka i gljiva','Gljiva i bakterija'],a:0},
+{q:'Koji tip lišaja je najčvršće priljubljen za podlogu?',opts:['Lisnati','Žbunasti','Korasasti'],a:2},
+];
+
+let xp=0,hearts=3,idx=0;
+
+function loadQ(){
+document.getElementById('q').textContent=questions[idx].q;
+let ops='';
+questions[idx].opts.forEach((o,i)=>{
+ops+=`<div class='opt' onclick='check(${i})'>${o}</div>`;
+});
+document.getElementById('opts').innerHTML=ops;
+}
+
+function check(i){
+document.querySelectorAll('.opt').forEach(o=>o.onclick=null);
+const correct=questions[idx].a;
+if(i===correct){xp+=20;event.target.classList.add('correct');}
+else{hearts--;event.target.classList.add('wrong');
+document.querySelectorAll('.opt')[correct].classList.add('correct');}
+document.getElementById('xp').textContent='XP: '+xp;
+document.getElementById('hearts').textContent='❤️'.repeat(hearts);
+document.getElementById('next').classList.remove('hide');
+
+if(hearts<=0){end();}
+}
+document.getElementById('next').onclick=()=>{
+idx++;
+if(idx>=questions.length){end();return;}
+document.getElementById('next').classList.add('hide');
+loadQ();
+}
+function end(){
+document.getElementById('q').innerHTML='<h3>Kraj igre!</h3> Ukupno XP: '+xp;
+document.getElementById('opts').innerHTML='';
+document.getElementById('next').classList.add('hide');
+document.getElementById('retry').classList.remove('hide');
+}
+document.getElementById('retry').onclick=()=>location.reload();
+loadQ();
+</script>
+</body></html>
