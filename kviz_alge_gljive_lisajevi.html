@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kviz – Alge, gljive i lišajevi (6. razred)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #f5f7fb;
+      color: #222;
+    }
+
+    header {
+      background: #2b9c5b;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 20px auto 40px;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    h1, h2, h3 {
+      color: #234931;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      padding: 10px 15px;
+      border-radius: 8px;
+      background: #e9f8ef;
+    }
+
+    .question h3 {
+      margin-top: 0;
+    }
+
+    .options label {
+      display: block;
+      margin: 4px 0;
+      cursor: pointer;
+      padding: 3px 5px;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+
+    #btn-score {
+      background: #2b9c5b;
+      color: white;
+    }
+
+    #btn-score:hover {
+      opacity: 0.9;
+    }
+
+    .result-box {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #e9f7e9;
+      border: 1px solid #9ad19a;
+    }
+
+    .game-card {
+      margin-top: 15px;
+      padding: 12px 15px;
+      border-radius: 8px;
+      background: #fff7e6;
+      border: 1px solid #ffd27f;
+    }
+
+    .game-answer {
+      margin-top: 8px;
+      font-weight: bold;
+      display: none;
+    }
+
+    .toggle-answer {
+      background: #ffb347;
+      color: #222;
+    }
+
+    .toggle-answer:hover {
+      opacity: 0.9;
+    }
+
+    .secret-section {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 2px dashed #ccc;
+    }
+
+    .secret-input {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .secret-input input {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      max-width: 150px;
+    }
+
+    #btn-secret {
+      background: #222;
+      color: #fff;
+    }
+
+    #secret-message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    #teacher-section {
+      margin-top: 15px;
+      padding: 12px 15px;
+      border-radius: 8px;
+      background: #eef5ff;
+      border: 1px solid #99b3ff;
+      display: none;
+    }
+
+    .correct-option {
+      background: #c8f7c5;
+    }
+
+    .incorrect-option {
+      background: #f8c4c4;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px 0 20px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Kviz: Alge, gljive i lišajevi</h1>
+  <p>Za učenike 6. razreda – provjeri svoje znanje o ovim zanimljivim organizmima!</p>
+</header>
+
+<main>
+  <section id="quiz">
+    <h2>🧠 Kviz – 10 pitanja (svako po 10 poena)</h2>
+    <p>Zaokruži (klikni) tačan odgovor. Na kraju pritisni dugme <strong>„Izračunaj rezultat“</strong>.</p>
+
+    <!-- Pitanje 1 -->
+    <div class="question">
+      <h3>1. Šta su alge?</h3>
+      <div class="options">
+        <label><input type="radio" name="q1" value="a"> a) Životinje koje žive u vodi</label>
+        <label><input type="radio" name="q1" value="b" data-correct="true"> b) Organizmi koji vrše fotosintezu i mogu biti jednoćelijski i višećelijski</label>
+        <label><input type="radio" name="q1" value="c"> c) Vrsta gljiva</label>
+        <label><input type="radio" name="q1" value="d"> d) Samo biljke na kopnu</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 2 -->
+    <div class="question">
+      <h3>2. Na osnovu čega je izvršena podjela algi na zelene, mrke, crvene i silikatne?</h3>
+      <div class="options">
+        <label><input type="radio" name="q2" value="a"> a) Na osnovu veličine</label>
+        <label><input type="radio" name="q2" value="b" data-correct="true"> b) Na osnovu boje i pigmenata u hloroplastima</label>
+        <label><input type="radio" name="q2" value="c"> c) Na osnovu mjesta gdje čovjek živi</label>
+        <label><input type="radio" name="q2" value="d"> d) Na osnovu brzine kretanja</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 3 -->
+    <div class="question">
+      <h3>3. Gdje najčešće žive zelene alge?</h3>
+      <div class="options">
+        <label><input type="radio" name="q3" value="a"> a) Samo u pustinjama</label>
+        <label><input type="radio" name="q3" value="b" data-correct="true"> b) U slatkim i slanim vodama i na vlažnim mjestima</label>
+        <label><input type="radio" name="q3" value="c"> c) Samo u toplim morima</label>
+        <label><input type="radio" name="q3" value="d"> d) Samo na kopnu u šumama</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 4 -->
+    <div class="question">
+      <h3>4. Koji pigment je najzastupljeniji kod zelenih algi?</h3>
+      <div class="options">
+        <label><input type="radio" name="q4" value="a"> a) Karotin</label>
+        <label><input type="radio" name="q4" value="b" data-correct="true"> b) Hlorofil</label>
+        <label><input type="radio" name="q4" value="c"> c) Hemoglobin</label>
+        <label><input type="radio" name="q4" value="d"> d) Melanin</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 5 -->
+    <div class="question">
+      <h3>5. Gdje se najčešće nalaze mrke alge i kakvu ulogu imaju?</h3>
+      <div class="options">
+        <label><input type="radio" name="q5" value="a"> a) U rijekama; ukrašavaju dno</label>
+        <label><input type="radio" name="q5" value="b" data-correct="true"> b) U hladnijim morima; grade podvodne šume i livade</label>
+        <label><input type="radio" name="q5" value="c"> c) Na stablima drveća; hrane se sokovima drveća</label>
+        <label><input type="radio" name="q5" value="d"> d) U vazduhu; lete kao prašina</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 6 -->
+    <div class="question">
+      <h3>6. Zašto gljive ne svrstamo u biljke?</h3>
+      <div class="options">
+        <label><input type="radio" name="q6" value="a"> a) Jer uvijek žive u vodi</label>
+        <label><input type="radio" name="q6" value="b" data-correct="true"> b) Zato što ne vrše fotosintezu već razgrađuju organske materije</label>
+        <label><input type="radio" name="q6" value="c"> c) Zato što nemaju ćelije</label>
+        <label><input type="radio" name="q6" value="d"> d) Zato što se razmnožavaju samo polno</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 7 -->
+    <div class="question">
+      <h3>7. Kako se gljive razmnožavaju?</h3>
+      <div class="options">
+        <label><input type="radio" name="q7" value="a"> a) Samo sjemenkama</label>
+        <label><input type="radio" name="q7" value="b" data-correct="true"> b) Sporama, bespolno i polno</label>
+        <label><input type="radio" name="q7" value="c"> c) Dijeljenjem ćelije kao bakterije</label>
+        <label><input type="radio" name="q7" value="d"> d) Umjetnom oplodnjom</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 8 -->
+    <div class="question">
+      <h3>8. Šta su saprofiti?</h3>
+      <div class="options">
+        <label><input type="radio" name="q8" value="a"> a) Gljive koje žive samo na živim drvećima</label>
+        <label><input type="radio" name="q8" value="b"> b) Organizmi koji žive u simbiozi sa algama</label>
+        <label><input type="radio" name="q8" value="c" data-correct="true"> c) Organizmi (npr. gljive) koji razgrađuju uginule organizme i organske ostatke</label>
+        <label><input type="radio" name="q8" value="d"> d) Otrovne gljive</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 9 -->
+    <div class="question">
+      <h3>9. Šta su lišajevi?</h3>
+      <div class="options">
+        <label><input type="radio" name="q9" value="a"> a) Samo jedna vrsta gljiva</label>
+        <label><input type="radio" name="q9" value="b"> b) Samo jedna vrsta algi</label>
+        <label><input type="radio" name="q9" value="c" data-correct="true"> c) Zajednica algi i gljiva koje žive u simbiozi</label>
+        <label><input type="radio" name="q9" value="d"> d) Bakterije koje žive u tlu</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 10 -->
+    <div class="question">
+      <h3>10. Koje su tri osnovne spoljašnje forme (tipa) lišajeva?</h3>
+      <div class="options">
+        <label><input type="radio" name="q10" value="a"> a) Korašti, travnati i drvenasti</label>
+        <label><input type="radio" name="q10" value="b" data-correct="true"> b) Korašti, žbunasti i lisnati</label>
+        <label><input type="radio" name="q10" value="c"> c) Zeleni, crveni i plavi</label>
+        <label><input type="radio" name="q10" value="d"> d) Vodeni, kopneni i vazdušni</label>
+      </div>
+    </div>
+
+    <button id="btn-score">Izračunaj rezultat</button>
+
+    <div id="result" class="result-box" style="display:none;">
+      <p><strong>Ukupno poena: <span id="score-value"></span> / 100</strong></p>
+      <p id="score-message"></p>
+    </div>
+  </section>
+
+  <!-- INTERAKTIVNA IGRA -->
+  <section id="game">
+    <h2>🎮 Interaktivna igra: „Pogodi ko sam!“</h2>
+    <p>Jedan učenik čita opis, ostali pogađaju. Klikni na „Prikaži odgovor“ da provjeriš rješenje.</p>
+
+    <div class="game-card">
+      <p><strong>1.</strong> „Živim u vodi ili na vlažnim mjestima, imam zelenu boju zbog hlorofila i često pravim zeleni sloj u akvarijumu koji se ne čisti.“</p>
+      <button class="toggle-answer">Prikaži odgovor</button>
+      <div class="game-answer">✅ Odgovor: <strong>Zelena alga</strong></div>
+    </div>
+
+    <div class="game-card">
+      <p><strong>2.</strong> „Najčešće se nalazim u hladnim morima. Mogu da budem veoma velika i da gradim podvodne šume i livade.“</p>
+      <button class="toggle-answer">Prikaži odgovor</button>
+      <div class="game-answer">✅ Odgovor: <strong>Mrka alga</strong></div>
+    </div>
+
+    <div class="game-card">
+      <p><strong>3.</strong> „Ja sam višećelijska gljiva, imam klobuk i dršku. Neke moje vrste su jestive, a neke veoma otrovne, pa sakupljanju uvijek mora prići oprezno.“</p>
+      <button class="toggle-answer">Prikaži odgovor</button>
+      <div class="game-answer">✅ Odgovor: <strong>Pečurka</strong></div>
+    </div>
+
+    <div class="game-card">
+      <p><strong>4.</strong> „Najčešće sam jednoćelijska gljiva koja živi na plodovima voća i razgrađuje šećere. Koristi me pekar kada pravi hljeb i kifle.“</p>
+      <button class="toggle-answer">Prikaži odgovor</button>
+      <div class="game-answer">✅ Odgovor: <strong>Kvasac</strong></div>
+    </div>
+
+    <div class="game-card">
+      <p><strong>5.</strong> „Moje tijelo čvrsto je prilijepljeno za stijenku, kamen ili drvo. Građena sam od gljive i algi zajedno i često pokazujem koliko je vazduh čist ili zagađen.“</p>
+      <button class="toggle-answer">Prikaži odgovor</button>
+      <div class="game-answer">✅ Odgovor: <strong>Lišaj</strong></div>
+    </div>
+  </section>
+
+  <!-- TAJNA ŠIFRA -->
+  <section class="secret-section">
+    <h2>🔐 Tajna zona za nastavnike</h2>
+    <p>Unesite tajnu šifru da prikažete rješenja kviza i označite tačne odgovore.</p>
+
+    <div class="secret-input">
+      <label for="secret-code">Tajna šifra:</label>
+      <input type="password" id="secret-code" placeholder="****" />
+      <button id="btn-secret">Provjeri</button>
+    </div>
+    <div id="secret-message"></div>
+
+    <div id="teacher-section">
+      <h3>Rješenja kviza</h3>
+      <ol>
+        <li>1. b) Organizmi koji vrše fotosintezu i mogu biti jednoćelijski i višećelijski</li>
+        <li>2. b) Na osnovu boje i pigmenata u hloroplastima</li>
+        <li>3. b) U slatkim i slanim vodama i na vlažnim mjestima</li>
+        <li>4. b) Hlorofil</li>
+        <li>5. b) U hladnijim morima; grade podvodne šume i livade</li>
+        <li>6. b) Zato što ne vrše fotosintezu već razgrađuju organske materije</li>
+        <li>7. b) Sporama, bespolno i polno</li>
+        <li>8. c) Organizmi koji razgrađuju uginule organizme i organske ostatke</li>
+        <li>9. c) Zajednica algi i gljiva koje žive u simbiozi</li>
+        <li>10. b) Korašti, žbunasti i lisnati</li>
+      </ol>
+      <p><em>Savjet:</em> Ponovo kliknite na „Izračunaj rezultat“ da se prikažu poeni i oboje tačne/netačne opcije.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  &copy; 
+  <script>document.write(new Date().getFullYear());</script>
+  – Kviz: Alge, gljive i lišajevi
+</footer>
+
+<script>
+  let teacherMode = false; // kad se otključa šifra, označavamo tačne odgovore
+
+  function ocijeniKviz(oznaciTacne) {
+    // ukloni stare oznake
+    document.querySelectorAll('.options label').forEach(function (lab) {
+      lab.classList.remove('correct-option', 'incorrect-option');
+    });
+
+    const correctChecked = document.querySelectorAll(
+      'input[type="radio"][data-correct="true"]:checked'
+    ).length;
+
+    const score = correctChecked * 10;
+    const resultBox = document.getElementById('result');
+    const scoreValue = document.getElementById('score-value');
+    const scoreMessage = document.getElementById('score-message');
+
+    scoreValue.textContent = score;
+
+    if (score <= 30) {
+      scoreMessage.textContent = 'Moraš još malo da istražuješ prirodu 🌱';
+    } else if (score <= 60) {
+      scoreMessage.textContent = 'Dobro ide! Još malo i bićeš ekspert 🔍';
+    } else if (score <= 90) {
+      scoreMessage.textContent = 'Odlično! Ti si prirodnjak u duši 🧬';
+    } else {
+      scoreMessage.textContent = '🌟 SUPER GENIJE ZA BIOLOGIJU! 🌟';
+    }
+
+    resultBox.style.display = 'block';
+
+    if (oznaciTacne) {
+      // označi tačne i netačne odgovore
+      document.querySelectorAll('.question').forEach(function (q) {
+        const correctInput = q.querySelector('input[type="radio"][data-correct="true"]');
+        if (correctInput) {
+          const correctLabel = correctInput.parentElement;
+          correctLabel.classList.add('correct-option');
+        }
+
+        const checkedInput = q.querySelector('input[type="radio"]:checked');
+        if (checkedInput && !checkedInput.hasAttribute('data-correct')) {
+          const incorrectLabel = checkedInput.parentElement;
+          incorrectLabel.classList.add('incorrect-option');
+        }
+      });
+    }
+  }
+
+  // Izračunavanje rezultata kviza
+  document.getElementById('btn-score').addEventListener('click', function () {
+    ocijeniKviz(teacherMode);
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Igra – prikaz/skrivanje odgovora
+  document.querySelectorAll('.toggle-answer').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const answerDiv = this.nextElementSibling;
+      const visible = answerDiv.style.display === 'block';
+      answerDiv.style.display = visible ? 'none' : 'block';
+      this.textContent = visible ? 'Prikaži odgovor' : 'Sakrij odgovor';
+    });
+  });
+
+  // Tajna šifra 4567
+  document.getElementById('btn-secret').addEventListener('click', function () {
+    const input = document.getElementById('secret-code').value.trim();
+    const message = document.getElementById('secret-message');
+    const teacherSection = document.getElementById('teacher-section');
+
+    if (input === '4567') {
+      message.textContent = 'Tačna šifra! Rješenja su otključana, a kviz sada označava tačne i netačne odgovore.';
+      teacherSection.style.display = 'block';
+      teacherMode = true;
+      // odmah jednom ocijeni kviz (ako je već popunjen) i označi odgovore
+      ocijeniKviz(true);
+    } else {
+      message.textContent = 'Pogrešna šifra. Pokušajte ponovo. ❌';
+      teacherSection.style.display = 'none';
+      teacherMode = false;
+    }
+  });
+</script>
+</body>
+</html>
