@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Super kviz iz biologije – 6. razred</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #f5f7fb;
+      color: #222;
+    }
+
+    header {
+      background: #4c6fff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 20px auto 40px;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    h1, h2, h3 {
+      color: #29335c;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      padding: 10px 15px;
+      border-radius: 8px;
+      background: #f0f3ff;
+    }
+
+    .question h3 {
+      margin-top: 0;
+    }
+
+    .options label {
+      display: block;
+      margin: 4px 0;
+      cursor: pointer;
+    }
+
+    button {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+
+    #btn-score {
+      background: #4c6fff;
+      color: white;
+    }
+
+    #btn-score:hover {
+      opacity: 0.9;
+    }
+
+    .result-box {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #e9f7e9;
+      border: 1px solid #9ad19a;
+    }
+
+    .game-card {
+      margin-top: 15px;
+      padding: 12px 15px;
+      border-radius: 8px;
+      background: #fff7e6;
+      border: 1px solid #ffd27f;
+    }
+
+    .game-answer {
+      margin-top: 8px;
+      font-weight: bold;
+      display: none;
+    }
+
+    .toggle-answer {
+      background: #ffb347;
+      color: #222;
+    }
+
+    .toggle-answer:hover {
+      opacity: 0.9;
+    }
+
+    .secret-section {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 2px dashed #ccc;
+    }
+
+    .secret-input {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .secret-input input {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      max-width: 150px;
+    }
+
+    #btn-secret {
+      background: #222;
+      color: #fff;
+    }
+
+    #secret-message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    #teacher-section {
+      margin-top: 15px;
+      padding: 12px 15px;
+      border-radius: 8px;
+      background: #eef5ff;
+      border: 1px solid #99b3ff;
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px 0 20px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Super kviz iz biologije (6. razred)</h1>
+  <p>Osvoji 100 poena znanja o živim bićima!</p>
+</header>
+
+<main>
+  <section id="quiz">
+    <h2>🧠 Kviz – 10 pitanja (svako po 10 poena)</h2>
+    <p>Zaokruži (klikni) tačan odgovor. Na kraju pritisni dugme <strong>„Izračunaj rezultat“</strong>.</p>
+
+    <!-- Pitanje 1 -->
+    <div class="question">
+      <h3>1. Šta proučava sistematika?</h3>
+      <div class="options">
+        <label><input type="radio" name="q1" value="a"> a) Zvuk i muziku</label>
+        <label><input type="radio" name="q1" value="b" data-correct="true"> b) Sličnosti i razlike živih bića</label>
+        <label><input type="radio" name="q1" value="c"> c) Građu planete Zemlje</label>
+        <label><input type="radio" name="q1" value="d"> d) Zvijezde</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 2 -->
+    <div class="question">
+      <h3>2. Ko je osnivač sistematike?</h3>
+      <div class="options">
+        <label><input type="radio" name="q2" value="a"> a) Fleming</label>
+        <label><input type="radio" name="q2" value="b" data-correct="true"> b) Line</label>
+        <label><input type="radio" name="q2" value="c"> c) Tesla</label>
+        <label><input type="radio" name="q2" value="d"> d) Paster</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 3 -->
+    <div class="question">
+      <h3>3. Koja je najmanja sistematska kategorija?</h3>
+      <div class="options">
+        <label><input type="radio" name="q3" value="a"> a) Carstvo</label>
+        <label><input type="radio" name="q3" value="b"> b) Red</label>
+        <label><input type="radio" name="q3" value="c" data-correct="true"> c) Vrsta</label>
+        <label><input type="radio" name="q3" value="d"> d) Klasa</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 4 -->
+    <div class="question">
+      <h3>4. Koliko carstava živih bića postoji?</h3>
+      <div class="options">
+        <label><input type="radio" name="q4" value="a"> a) 2</label>
+        <label><input type="radio" name="q4" value="b"> b) 3</label>
+        <label><input type="radio" name="q4" value="c" data-correct="true"> c) 5</label>
+        <label><input type="radio" name="q4" value="d"> d) 6</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 5 -->
+    <div class="question">
+      <h3>5. Šta virusi NEMAJU?</h3>
+      <div class="options">
+        <label><input type="radio" name="q5" value="a"> a) Nasljedni materijal</label>
+        <label><input type="radio" name="q5" value="b"> b) Kapsidu</label>
+        <label><input type="radio" name="q5" value="c" data-correct="true"> c) Ćelijsku strukturu</label>
+        <label><input type="radio" name="q5" value="d"> d) Proteine</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 6 -->
+    <div class="question">
+      <h3>6. Koje carstvo obuhvata bakterije?</h3>
+      <div class="options">
+        <label><input type="radio" name="q6" value="a"> a) Protisti</label>
+        <label><input type="radio" name="q6" value="b" data-correct="true"> b) Monera</label>
+        <label><input type="radio" name="q6" value="c"> c) Biljke</label>
+        <label><input type="radio" name="q6" value="d"> d) Gljive</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 7 -->
+    <div class="question">
+      <h3>7. Kako se bakterije razmnožavaju?</h3>
+      <div class="options">
+        <label><input type="radio" name="q7" value="a"> a) Pupoljcima</label>
+        <label><input type="radio" name="q7" value="b" data-correct="true"> b) Dijeljenjem jedne ćelije</label>
+        <label><input type="radio" name="q7" value="c"> c) Polno</label>
+        <label><input type="radio" name="q7" value="d"> d) Sjemenkama</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 8 -->
+    <div class="question">
+      <h3>8. Ko je otkrio penicilin?</h3>
+      <div class="options">
+        <label><input type="radio" name="q8" value="a" data-correct="true"> a) Fleming</label>
+        <label><input type="radio" name="q8" value="b"> b) Ajnštajn</label>
+        <label><input type="radio" name="q8" value="c"> c) Curie</label>
+        <label><input type="radio" name="q8" value="d"> d) Lavoazje</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 9 -->
+    <div class="question">
+      <h3>9. Protisti mogu biti:</h3>
+      <div class="options">
+        <label><input type="radio" name="q9" value="a"> a) Samo autotrofi</label>
+        <label><input type="radio" name="q9" value="b"> b) Samo heterotrofi</label>
+        <label><input type="radio" name="q9" value="c" data-correct="true"> c) Oba – i autotrofi i heterotrofi</label>
+        <label><input type="radio" name="q9" value="d"> d) Ni jedno ni drugo</label>
+      </div>
+    </div>
+
+    <!-- Pitanje 10 -->
+    <div class="question">
+      <h3>10. Zelena euglena je primjer:</h3>
+      <div class="options">
+        <label><input type="radio" name="q10" value="a"> a) Životinje</label>
+        <label><input type="radio" name="q10" value="b"> b) Gljive</label>
+        <label><input type="radio" name="q10" value="c"> c) Bakterije</label>
+        <label><input type="radio" name="q10" value="d" data-correct="true"> d) Protista</label>
+      </div>
+    </div>
+
+    <button id="btn-score">Izračunaj rezultat</button>
+
+    <div id="result" class="result-box" style="display:none;">
+      <p><strong>Ukupno poena: <span id="score-value"></span> / 100</strong></p>
+      <p id="score-message"></p>
+    </div>
+  </section>
+
+  <!-- INTERAKTIVNA IGRA -->
+  <section id="game">
+    <h2>🎮 Interaktivna igra: „Pogodi ko sam!“</h2>
+    <p>Jedan učenik čita opis, ostali pogađaju. Klikni na „Prikaži odgovor“ da provjeriš rješenje.</p>
+
+    <div class="game-card">
+      <p><strong>1.</strong> „Malena sam, nemam jedro i često živim u tebi. Nekad pomažem, nekad pravim probleme. Razmnožavam se dijeljenjem.“</p>
+      <button class="toggle-answer">Prikaži odgovor</button>
+      <div class="game-answer">✅ Odgovor: <strong>Bakterija</strong></div>
+    </div>
+
+    <div class="game-card">
+      <p><strong>2.</strong> „U sebi imam samo genetski materijal i proteinsku kapsidu. Ne mogu da živim bez tuđe ćelije.“</p>
+      <button class="toggle-answer">Prikaži odgovor</button>
+      <div class="game-answer">✅ Odgovor: <strong>Virus</strong></div>
+    </div>
+
+    <div class="game-card">
+      <p><strong>3.</strong> „Ja sam organizam koji može biti i autotrof i heterotrof. Zelena sam i imam jedan bič koji mi pomaže da plivam.“</p>
+      <button class="toggle-answer">Prikaži odgovor</button>
+      <div class="game-answer">✅ Odgovor: <strong>Zelena euglena</strong></div>
+    </div>
+
+    <div class="game-card">
+      <p><strong>4.</strong> „Krećem se lažnim nožicama. Mogu mijenjati oblik. Neke moje rođake mogu izazvati bolest dizenteriju.“</p>
+      <button class="toggle-answer">Prikaži odgovor</button>
+      <div class="game-answer">✅ Odgovor: <strong>Ameba</strong></div>
+    </div>
+
+    <div class="game-card">
+      <p><strong>5.</strong> „Nisam ni biljka ni životinja. Nekad sam proziran, nekad zelen. Plivam pomoću treplji. Hranim se bakterijama i manjim organizmima.“</p>
+      <button class="toggle-answer">Prikaži odgovor</button>
+      <div class="game-answer">✅ Odgovor: <strong>Paramicijum</strong></div>
+    </div>
+  </section>
+
+  <!-- TAJNA ŠIFRA -->
+  <section class="secret-section">
+    <h2>🔐 Tajna zona za nastavnike</h2>
+    <p>Unesite tajnu šifru da prikažete rješenja kviza.</p>
+
+    <div class="secret-input">
+      <label for="secret-code">Tajna šifra:</label>
+      <input type="password" id="secret-code" placeholder="****" />
+      <button id="btn-secret">Provjeri</button>
+    </div>
+    <div id="secret-message"></div>
+
+    <div id="teacher-section">
+      <h3>Rješenja kviza</h3>
+      <ol>
+        <li>1. b) Sličnosti i razlike živih bića</li>
+        <li>2. b) Line</li>
+        <li>3. c) Vrsta</li>
+        <li>4. c) 5</li>
+        <li>5. c) Ćelijsku strukturu</li>
+        <li>6. b) Monera</li>
+        <li>7. b) Dijeljenjem jedne ćelije</li>
+        <li>8. a) Fleming</li>
+        <li>9. c) Oba – i autotrofi i heterotrofi</li>
+        <li>10. d) Protista</li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer>
+  &copy; 
+  <script>document.write(new Date().getFullYear());</script>
+  – Kviz iz biologije za 6. razred
+</footer>
+
+<script>
+  // Izračunavanje rezultata kviza
+  document.getElementById('btn-score').addEventListener('click', function () {
+    const correctChecked = document.querySelectorAll(
+      'input[type="radio"][data-correct="true"]:checked'
+    ).length;
+
+    const score = correctChecked * 10;
+    const resultBox = document.getElementById('result');
+    const scoreValue = document.getElementById('score-value');
+    const scoreMessage = document.getElementById('score-message');
+
+    scoreValue.textContent = score;
+
+    if (score <= 30) {
+      scoreMessage.textContent = 'Moraš još malo da istražuješ prirodu 🌱';
+    } else if (score <= 60) {
+      scoreMessage.textContent = 'Dobro ide! Još malo i bićeš ekspert 🔍';
+    } else if (score <= 90) {
+      scoreMessage.textContent = 'Odlično! Ti si prirodnjak u duši 🧬';
+    } else {
+      scoreMessage.textContent = '🌟 SUPER GENIJE ZA BIOLOGIJU! 🌟';
+    }
+
+    resultBox.style.display = 'block';
+    resultBox.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Igra – prikaz/skrivanje odgovora
+  document.querySelectorAll('.toggle-answer').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const answerDiv = this.nextElementSibling;
+      const visible = answerDiv.style.display === 'block';
+      answerDiv.style.display = visible ? 'none' : 'block';
+      this.textContent = visible ? 'Prikaži odgovor' : 'Sakrij odgovor';
+    });
+  });
+
+  // Tajna šifra 4567
+  document.getElementById('btn-secret').addEventListener('click', function () {
+    const input = document.getElementById('secret-code').value.trim();
+    const message = document.getElementById('secret-message');
+    const teacherSection = document.getElementById('teacher-section');
+
+    if (input === '4567') {
+      message.textContent = 'Tačna šifra! Rješenja su otključana ✅';
+      teacherSection.style.display = 'block';
+    } else {
+      message.textContent = 'Pogrešna šifra. Pokušajte ponovo. ❌';
+      teacherSection.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>
