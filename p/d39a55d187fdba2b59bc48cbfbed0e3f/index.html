@@ -95,6 +95,23 @@ details.s>summary .n{flex:none;display:inline-grid;place-items:center;width:26px
 .timeline li{position:relative;padding:6px 0 6px 18px;border-left:2px solid var(--line);margin-left:6px}
 .timeline li::before{content:"";position:absolute;left:-6px;top:13px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
 .toolbar{display:flex;margin-top:12px}
+.ba{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px;background:var(--bg)}
+.ba .b{color:var(--muted);font-size:14.5px}
+.ba .a{font-weight:600;font-size:15px}
+.ba .rk{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.ba .a .rk{color:var(--ok)}
+.ba .arrow{color:var(--accent);font-size:18px;line-height:1.2;margin:2px 0}
+.ba .mods{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.card pre.mermaid{background:transparent;padding:4px 0;margin:0;overflow:visible}
+.diagram{position:relative;overflow-x:auto;margin-top:6px;padding-bottom:4px}
+.zoom{position:sticky;left:0;margin-top:6px;font:inherit;font-size:13px;font-weight:600;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer}
+.zoom-layer{position:fixed;inset:0;z-index:50;background:var(--card);display:flex;flex-direction:column}
+.zoom-close{align-self:flex-end;margin:10px;font:inherit;font-weight:600;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text)}
+.zoom-body{flex:1;overflow:auto;padding:10px;touch-action:pan-x pan-y pinch-zoom}
+.zoom-body svg{max-width:none!important;height:auto}
+.details-head{margin-top:28px;padding-top:16px;border-top:2px dashed var(--line);display:flex;flex-direction:column;gap:4px}
+.details-head h2{font-size:17px;margin:0}
+.details-head p{margin:0}
 @media (max-width:640px){
  .table-wrap{border:0;overflow:visible}
  .table-wrap table,.table-wrap tbody,.table-wrap tr,.table-wrap td{display:block;width:100%}
@@ -117,7 +134,7 @@ footer{color:var(--muted);font-size:12.5px;margin-top:28px;text-align:center}
 <div class="t">Šifarnik artikala</div>
 <div class="d">2026-10-18</div>
 </a></div>
-<footer>Ažurirano 2026-10-18 18:21 UTC</footer>
+<footer>Ažurirano 2026-10-18 21:08 UTC</footer>
 </div>
 
 </body>
