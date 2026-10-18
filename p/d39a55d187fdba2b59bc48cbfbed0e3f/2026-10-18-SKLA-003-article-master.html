@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="sr-Latn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>SKLA-003 — Šifarnik artikala</title>
+<style>
+:root{--bg:#f6f5f2;--card:#fff;--text:#1d1d1f;--muted:#6b6b70;--line:#e3e1dc;--accent:#2f5bd3;--accent-soft:#e8eefc;
+--ok:#1f7a4d;--ok-soft:#e3f4ea;--warn:#9a5b00;--warn-soft:#fdf0d9;--bad:#b42318;--bad-soft:#fde8e6;--code:#f1efe9;
+--kw:#7a3fd1;--tag:#0f6b8a;--tag-soft:#e1f2f7}
+@media (prefers-color-scheme:dark){:root{--bg:#141416;--card:#1d1d20;--text:#ececef;--muted:#a0a0a8;--line:#2e2e33;
+--accent:#8fa9ff;--accent-soft:#232a40;--ok:#6fd3a0;--ok-soft:#173326;--warn:#f0b75e;--warn-soft:#3a2c14;--bad:#ff8a80;
+--bad-soft:#3d1c1a;--code:#26262a;--kw:#c4a1ff;--tag:#7fd0e8;--tag-soft:#183039}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--accent)}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 64px}
+header.top{padding:20px 0 8px}
+.crumbs{font-size:13px;color:var(--muted);margin-bottom:8px}
+h1{font-size:24px;line-height:1.25;margin:4px 0 12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12.5px;font-weight:600;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.chip.status{background:var(--warn-soft);color:var(--warn)}
+.chip.status.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.neg{background:var(--bad-soft);color:var(--bad)}
+.chip.tag{background:var(--tag-soft);color:var(--tag)}
+dl.meta{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;margin:0;font-size:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+dl.meta dt{color:var(--muted)} dl.meta dd{margin:0;overflow-wrap:anywhere}
+nav.sections{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin:16px -16px 0;padding:8px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+nav.sections::-webkit-scrollbar{display:none}
+nav.sections a{flex:none;text-decoration:none;font-size:13px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--text);white-space:nowrap}
+nav.sections a.on{background:var(--accent);border-color:var(--accent);color:#fff}
+section.s{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 16px 12px;margin-top:16px;scroll-margin-top:60px}
+section.s>h2{font-size:19px;margin:14px 0 8px;display:flex;gap:10px;align-items:baseline}
+section.s>h2 .n{flex:none;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--accent-soft);color:var(--accent);font-size:14px}
+h3{font-size:16px;margin:16px 0 6px}
+p,li{overflow-wrap:anywhere}
+code{background:var(--code);padding:1px 5px;border-radius:5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+pre{background:var(--code);padding:12px;border-radius:10px;overflow-x:auto;font-size:13px;line-height:1.5}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:10px 0;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--code);font-weight:600;font-size:13px;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td:first-child{white-space:nowrap}
+.gherkin{background:var(--code);border-radius:10px;padding:10px 12px;margin:10px 0;font-size:14.5px}
+.gherkin .feature{font-weight:700;margin:4px 0 8px}
+.gherkin .sc{border-top:1px solid var(--line);padding:10px 0 6px}
+.gherkin .sc:first-of-type{border-top:0}
+.gherkin .tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:5px}
+.gherkin .sname{font-weight:600;margin-bottom:4px}
+.gherkin .step{padding-left:14px}
+.gherkin .kw{color:var(--kw);font-weight:700}
+.gherkin .comment{color:var(--muted);font-style:italic}
+.mermaid{background:var(--card);text-align:center;overflow-x:auto}
+details.s{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-top:10px;scroll-margin-top:60px}
+details.s>summary{list-style:none;cursor:pointer;display:flex;gap:10px;align-items:center;padding:14px 16px;font-weight:600;font-size:16.5px}
+details.s>summary::-webkit-details-marker{display:none}
+details.s>summary .lbl{flex:1}
+details.s>summary .hint{font-weight:500;font-size:12.5px;color:var(--muted)}
+details.s>summary::after{content:"›";font-size:22px;color:var(--muted);transition:transform .15s}
+details.s[open]>summary::after{transform:rotate(90deg)}
+details.s>summary .n{flex:none;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--accent-soft);color:var(--accent);font-size:14px}
+.sbody{padding:0 16px 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-top:12px}
+.card.hero{border-color:var(--accent);box-shadow:0 1px 0 var(--accent-soft)}
+.card.warn{border-color:var(--bad);background:var(--bad-soft)}
+.card.warn li{margin:6px 0}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.lead{font-size:17px;margin:4px 0 12px}
+.muted{color:var(--muted);font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:8px}
+.stat{background:var(--bg);border-radius:12px;padding:8px 10px;text-align:center}
+.stat b{display:block;font-size:22px;line-height:1.1}
+.stat span{font-size:12px;color:var(--muted)}
+.dec{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px}
+.dec[data-state=da]{border-color:var(--ok);background:var(--ok-soft)}
+.dec[data-state=ne]{border-color:var(--bad);background:var(--bad-soft)}
+.dec[data-state=pitanje]{border-color:var(--warn);background:var(--warn-soft)}
+.dq{font-weight:600;margin-bottom:6px}
+.dr{font-size:14.5px;margin-top:4px}
+.dr .rk{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.btns{display:flex;gap:6px;margin-top:10px}
+.btns button,.copy,.toolbar button{flex:1;font:inherit;font-size:14px;font-weight:600;padding:10px 8px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;min-height:44px}
+.btns button.on[data-v=da]{background:var(--ok);border-color:var(--ok);color:#fff}
+.btns button.on[data-v=ne]{background:var(--bad);border-color:var(--bad);color:#fff}
+.btns button.on[data-v=pitanje]{background:var(--warn);border-color:var(--warn);color:#fff}
+.dec textarea{display:none;width:100%;margin-top:8px;font:inherit;font-size:14px;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--text)}
+.copy{width:100%;margin-top:12px;background:var(--accent);border-color:var(--accent);color:#fff}
+.copied{font-size:13.5px;color:var(--ok);margin-top:6px}
+.timeline{margin:4px 0 0;padding-left:0;list-style:none;counter-reset:k}
+.timeline li{position:relative;padding:6px 0 6px 18px;border-left:2px solid var(--line);margin-left:6px}
+.timeline li::before{content:"";position:absolute;left:-6px;top:13px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.toolbar{display:flex;margin-top:12px}
+@media (max-width:640px){
+ .table-wrap{border:0;overflow:visible}
+ .table-wrap table,.table-wrap tbody,.table-wrap tr,.table-wrap td{display:block;width:100%}
+ .table-wrap thead{display:none}
+ .table-wrap tr{border:1px solid var(--line);border-radius:12px;padding:6px 10px;margin-bottom:8px;background:var(--bg)}
+ .table-wrap td{border:0;padding:4px 0;white-space:normal}
+ .table-wrap td[data-label]:not([data-label=""]):not(:first-child)::before{content:attr(data-label);display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+}
+footer{color:var(--muted);font-size:12.5px;margin-top:28px;text-align:center}
+.list a.item{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:12px}
+.list .item .t{font-weight:600;margin:6px 0 2px}
+.list .item .d{font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body data-ticket="SKLA-003">
+<div class="wrap">
+<header class="top">
+<div class="crumbs"><a href="./">Planovi</a> › SKLA-003</div>
+<h1>Šifarnik artikala</h1>
+<div class="chips"><span class="chip">SKLA-003</span><span class="chip status">Nacrt</span><span class="chip tag">2026-10-18</span></div>
+<dl class="meta"><dt> </dt><dd> </dd><dt>Izvor</dt><dd><a href="https://app.asana.com/1/1198560311314936/project/1218912007993842/task/1219130325465914" rel="noreferrer">Otvori u Asani ↗</a></dd><dt>Specifikacija</dt><dd>SPEC-2026-001 Specifikacija šifarnika artikala, v1.1 (4. 10. 2026) i odluka Savjeta od 4. 10. 2026</dd></dl>
+</header>
+<div id="summary"></div>
+<nav class="sections" id="sections" aria-label="Sekcije"></nav>
+<main id="plan"></main>
+<footer>Generisano 2026-10-18 18:21 UTC iz <code>docs/plans/2026-10-18-SKLA-003-article-master.md</code></footer>
+<script type="application/json" id="plan-md">"## 1. Svrha\n\nArtikal dobija tri ose: fiksnu prirodu, korisničku knjigovodstvenu grupu i stablo kategorija koje je\nujedno šablon za nove šifre. PDV prelazi na poresku kategoriju sa stopom po državi i datumu, a JM na\nlogističku hijerarhiju sa više barkodova. Model od prvog dana nosi sve četiri faze (spec. §1).\n\n## 2. Slučajevi korišćenja i kriterijumi\n\n| ID | Slučaj korišćenja | Ko | Izvor |\n|---|---|---|---|\n| UC-01 | Održavanje stabla kategorija i šablona čvora (zadane vrijednosti, atributi, pravilo šifre, šablon naziva) | Administrator firme | Spec. §6 |\n| UC-02 | Novi artikal iz kategorije: zadane vrijednosti, predložena šifra i naziv, izmjena prije snimanja | Operater | Spec. §3, §6 |\n| UC-03 | Premještanje artikla u drugi čvor i prenos izmijenjene zadane vrijednosti uz pregled | Administrator firme | Spec. §6 |\n| UC-04 | Lager lista, promet i kartica po čvoru, sa svim podčvorovima | Operater | Spec. §6 |\n| UC-05 | Priroda artikla (7 vrijednosti), oznake lot/rok i serijski broj | Operater | Spec. §3, §4 |\n| UC-06 | Knjigovodstvene grupe sa dozvoljenim prirodama | Administrator firme | Spec. §5 |\n| UC-07 | Atributi: definicija, veza sa kategorijom, unos i filter | Administrator firme, Operater | Spec. §7 |\n| UC-08 | JM firme i logistički nivoi (kutija, red, paleta, međupakovanja) sa preračunom u osnovnu JM | Operater | Spec. §8 |\n| UC-09 | Više barkodova po artiklu i nivou; skeniranje prepoznaje artikal i količinu nivoa | Operater, Magacioner | Spec. §8 |\n| UC-10 | Poreske kategorije sa stopom po državi i datumu važenja | Administrator firme | Spec. §9 |\n| UC-11 | Artikal × dobavljač (i kupac) i artikal × magacin | Operater, Magacioner | Spec. §10 |\n| UC-12 | Šablon djelatnosti pri otvaranju firme | Administrator platforme | Spec. §12 |\n| UC-13 | Uvoz artikala iz Pantheona uz pregledano mapiranje | Partner | Spec. §13 |\n\n| ID | Kriterijum prihvatanja (iz specifikacije) | UC |\n|---|---|---|\n| AC-01 | Artikal u čvoru „Sokovi“ dobija prirodu, grupu, poresku kategoriju i JM iz čvora ili najbližeg nadređenog | UC-02 |\n| AC-02 | Šifra po pravilu čvora (PIC-00045, pa PIC-00046), ručno promjenljiva prije snimanja | UC-02 |\n| AC-03 | Naziv se sastavi iz šablona kad su atributi popunjeni | UC-02 |\n| AC-04 | Premještanje artikla u drugi čvor ne mijenja šifru | UC-03 |\n| AC-05 | Izmjena zadane vrijednosti čvora ne dira artikle do prenosa; prenos prikaže spisak i izmjene prije potvrde | UC-03 |\n| AC-06 | Lager lista i promet po čvoru „Pića“ sadrže artikle svih podčvorova | UC-04 |\n| AC-07 | Artikal sa prometom ne može promijeniti prirodu ni šifru | UC-05 |\n| AC-08 | Usluga nema zalihu i ne traži JM; grupa za materijal ne može se dodijeliti usluzi | UC-06 |\n| AC-09 | Obavezan atribut iz kategorije ne može ostati prazan | UC-07 |\n| AC-10 | Atribut tipa lista prima samo vrijednosti sa liste | UC-07 |\n| AC-11 | Lista artikala se filtrira po vrijednosti atributa | UC-07 |\n| AC-12 | Za sok (24/8/5) program prikazuje 40 kutija i 960 kom na paleti | UC-08 |\n| AC-13 | Prijem „2 palete“ poveća zalihu za 1.920 kom | UC-08 |\n| AC-14 | Skeniranje barkoda kutije na kasi ili u magacinu dodaje 24 kom | UC-09 |\n| AC-15 | Isti barkod se ne može dodijeliti dvama artiklima | UC-09 |\n| AC-16 | Nova stopa od datuma D važi za dokumente od D; stariji ostaju nepromijenjeni | UC-10 |\n| AC-17 | Isti artikal: 17% domaćem kupcu, 0% na izvoznom računu, bez izmjene artikla | UC-10 |\n| AC-18 | Uvoz iz Pantheona prenosi sve aktivne artikle; broj artikala, barkodova i pakovanja se slaže | UC-13 |\n| AC-19 | Konta sa artikla se ne prenose na artikal | UC-13 |\n\n## 3. Odluke za odobrenje\n\n| ID | Odluka | Preporuka | Zašto |\n|---|---|---|---|\n| D-01 | Korisnički atributi (Savjet 1) | Admin firme definiše polja za entitet `article` u postojećem `extensibility.field_definitions`; vrijednosti u `articles.ext`. Mijenja AGENTS.md §1 („end-user custom-field editors“) i odluku 3 iz `docs/proposals/2026-07-28-custom-fields-vertical-templates-design.md` | Koristi postojeći mehanizam i pet postojećih tipova; nema logike u konfiguraciji |\n| D-02 | Više firmi u instalaciji (Savjet 2) | Bez izmjene AGENTS.md: firma = tenant (ADR-015, `MasterData/Migrations/014_tenancy.sql`) | Već je izgrađeno; ista šifra u dvije firme već radi (`ux_articles_tenant_code`) |\n| D-03 | Šeme knjiženja po događajima (Savjet 3) | Ovdje samo knjigovodstvena grupa; ADR-010 mijenja plan šema knjiženja | Bez konta i događaja ovaj plan ne dira ADR-010 |\n| D-04 | Priroda naspram današnjeg `kind` (`stock`/`service`) | Nova kolona `nature`; `kind` postaje izvedena kolona iz `nature` | Inventory, Invoicing, Procurement i Samples i dalje čitaju `kind` bez izmjene |\n| D-05 | Kad se zaključavaju priroda i šifra | Ostaje kao danas: nepromjenljive od kreiranja (trigger `010_article_kind_immutable.sql`) | Ispunjava AC-07 bez novog SPI-ja „ima promet“ u `Public/` |\n| D-06 | Pravila šifre i naziva | Za nove artikle šifra ≤ 30, `[A-Za-z0-9._/-]`, jedinstvena po `lower(code)`; naziv ≤ 200; postojeće ostaju | Danas je šifra ≤ 64 i razlikuje velika i mala slova |\n| D-07 | Model poreske kategorije | Nove tabele `tax_categories` + `tax_category_rates`; nova kolona `company.country` (zadano `BA`); `IArticleQuery` dobija stopu po datumu | Firma danas nema državu; izmjena `Public/` ugovora |\n| D-08 | „Prati lot i rok“ isključeno | Inventory knjiži u jedan sistemski lot po artiklu (rok `9999-12-31`) | `inventory.lots.expiry` ostaje `NOT NULL`; FEFO i invarijante 4–6 se ne diraju |\n| D-09 | Izbor šablona djelatnosti | Admin platforme bira djelatnost pri otvaranju firme (izmjena Tenancy zahtjeva) | Šablon je kopija koju firma dalje mijenja |\n| D-10 | Oblik uvoza iz Pantheona | Dokumentovan SQL upit → CSV → upload → pregled mapiranja; potvrđena pravila se čuvaju | Bez nove zavisnosti (SqlClient) |\n| D-11 | Kasa u specifikaciji (kratki naziv, raspored, AC-14 „na kasi“) | Čuvamo `short_name`; skeniranje radi na prijemu i stavkama računa | AGENTS.md §1 isključuje Retail/POS |\n\n## 4. Rješenje\n\nSve tabele su u šemi `masterdata` (osim gdje piše drugačije), sa `tenant_id`, RLS, audit poljima i `version`.\n\n| Tabela | Ključno | Napomena |\n|---|---|---|\n| `article_categories` | `parent_id`, naziv, zadane vrijednosti (priroda, grupa, poreska kategorija, JM, lot, serijski), `code_prefix`, `code_digits`, `name_template` | `NULL` = nasljeđuje od nadređenog; stablo bez ciklusa |\n| `category_attributes` | `category_id`, `field_definition_id`, `is_required` | Podčvor nasljeđuje i dodaje |\n| `category_counters` | `category_id` (`NULL` = cijela firma), `next_value` | Red zaključan `FOR UPDATE` pri snimanju (kao ADR-012); potrošen broj se ne vraća |\n| `accounting_groups` | šifra, naziv, `allowed_natures`, `is_active` | Bez konta (D-03) |\n| `tax_categories`, `tax_category_rates` | kategorija; `country`, `valid_from`, `percentage` | Važi red sa najvećim `valid_from ≤ datum` |\n| `article_packagings` | nivo, nadređeni nivo, količina u nadređenom, `factor_to_base`, težine, dimenzije | Faktor se računa i čuva |\n| `article_barcodes` | `code`, tip, nivo, `is_primary` | Jedinstven po firmi; jedan glavni |\n| `article_partners` | partner, uloga (dobavljač/kupac), šifra i naziv kod partnera, glavni, min. narudžba | Spec. §10 |\n| `inventory.article_stock_levels` | magacin, min, max, nivo dopune, lokacija | Vlasnik je Inventory, jer je vlasnik magacina |\n| `articles` (izmjena) | + `nature`, `category_id`, `accounting_group_id`, `tax_category_id`, `short_name`, `brand`, `manufacturer_partner_id`, `track_lot`, `track_serial` | `kind` izveden (D-04) |\n\n| Ugovor | Izmjena |\n|---|---|\n| `IArticleQuery` / `ArticleView` | + `Nature`, `TrackLot`, decimale JM; stopa po (artikal, smjer, datum, država) |\n| Novo u MasterData `Public/` | `IBarcodeQuery.Resolve(code)` → artikal, nivo, faktor; `IPackagingQuery.ToBase(...)` |\n| HTTP | `/masterdata/categories`, `/accounting-groups`, `/tax-categories`, `/articles/{id}/packagings`, `/barcodes`, `/partners`, `/categories/{id}/propagation`, `/imports/pantheon` |\n\n- **Stopa na stavci:** Invoicing i Procurement traže stopu na datum dokumenta i snimaju je na stavku, kao\n  danas. `vat_treatment = export` (`Invoicing/Migrations/012_export_jci.sql`) daje 0% na dokumentu.\n- **Količina u nivou:** stavka čuva nivo i količinu; servis preračuna u osnovnu JM. Žurnal ostaje u osnovnoj JM.\n- **Prava i audit:** postojeća prava za šifarnike; izmjene čvora, grupe i prenosa idu u `016_change_history.sql`.\n\n## 5. Izmjene po modulima\n\n| Modul | Izmjena |\n|---|---|\n| MasterData | Tabele iz §4, servisi i ekrani (kategorije, grupe, poreske kategorije, pakovanja, barkodovi); uvoz iz Pantheona; provisioning šablona. Klijent: filter po čvoru i atributu, izbor nivoa i skeniranje na stavkama |\n| Extensibility | Polja za `article` uređuje admin firme (D-01); šabloni nose kategorije, grupe, JM, poreske kategorije |\n| Inventory | Sistemski lot kad `track_lot = false` (D-08); `article_stock_levels` |\n| Procurement, Invoicing, Samples | Stopa po datumu; količina u nivou pakovanja; skeniranje barkoda na stavci |\n| Tenancy | Zahtjev za otvaranje firme dobija djelatnost (D-09) |\n| Reports | Filter po čvoru sa podčvorovima u lager listi, prometu i kartici |\n\n## 6. Postojeći podaci i invarijante\n\nPostojeći podaci tenanata su pravi podaci klijenata: prelaze migracijom na mjestu, nikad u testove.\n\n| Podatak | Pravilo prelaska |\n|---|---|\n| `kind` | `stock` → `roba`, `service` → `usluga` |\n| Kategorija | Svaka firma dobija korijen „Nerazvrstano“; svi artikli idu tamo |\n| Knjigovodstvena grupa | „Roba“ i „Usluge“ po firmi, dodjela po prirodi |\n| `tax_rates` | Jedna poreska kategorija po stopi, jedan red stope od `2000-01-01`; artikal dobija kategoriju svoje `sales_tax_rate_id` |\n| `barcode` | Jedan glavni red u `article_barcodes`; tip po dužini i kontrolnoj cifri, inače `internal` |\n| Lot i rok | `track_lot = true` za sve (današnje ponašanje) |\n| Duplikati | Prije migracije provjera duplikata `lower(code)` i barkoda po firmi; migracija staje sa spiskom |\n\n- Stare kolone (`unit`, `vat_rate`, `barcode`, `*_tax_rate_id`) ostaju sinhronizovane dok ih korisnici ne napuste.\n- §14.2, §14.4, §14.5: sistemski lot je običan lot. §14.8, §14.16: sve nove tabele. §14.11, §14.13: stavka čuva snimak stope.\n- **Nove invarijante:** stopa = red sa najvećim `valid_from ≤ datum`; nivo × faktor = žurnal; barkod jedinstven; stablo bez ciklusa.\n\n## 7. Scenariji\n\n```gherkin\n# language: sr-Latn\nFunkcionalnost: Šifarnik artikala\n  @UC-01 @negativan\n  Scenario: Čvor ne može postati sopstveni podčvor\n    Kada administrator premjesti „Pića“ ispod njegovog podčvora „Sokovi“\n    Onda snimanje pada sa greškom `category_cycle`\n  @UC-02 @AC-01\n  Scenario: Zadane vrijednosti iz najbližeg nadređenog čvora\n    Kada operater otvori artikal u „Sokovi“ koji nema zadane vrijednosti, a „Pića“ iznad ima „Roba“, „Opšta stopa“, „kom“\n    Onda artikal dobija prirodu, grupu, poresku kategoriju i JM iz „Pića“\n  @UC-02 @AC-02\n  Scenario: Šifra po pravilu čvora\n    Kada operater snimi dva artikla u „Sokovi“ (prefiks „PIC-“, 5 cifara, sljedeći broj 45)\n    Onda šifre su „PIC-00045“ i „PIC-00046“, a prije snimanja se mogu ručno promijeniti\n  @UC-02 @AC-03\n  Scenario: Naziv iz šablona\n    Kada su za šablon „{Vrsta} {Okus} {Zapremina}“ atributi „Sok“, „jabuka“, „0,25 l“\n    Onda predloženi naziv je „Sok jabuka 0,25 l“\n  @UC-03 @AC-04\n  Scenario: Premještanje čuva šifru\n    Kada administrator premjesti „PIC-00045“ iz „Sokovi“ u „Nektari“\n    Onda šifra je i dalje „PIC-00045“\n  @UC-03 @AC-05\n  Scenario: Prenos zadane vrijednosti uz pregled\n    Kada „Sokovi“ dobije „Snižena stopa“, a 3 artikla u njemu imaju „Opšta stopa“\n    Onda artikli se ne mijenjaju dok administrator ne potvrdi spisak od 3 artikla u prenosu\n  @UC-04 @AC-06\n  Scenario: Izvještaj po čvoru uključuje podčvorove\n    Kada operater filtrira lager listu i promet po „Pića“\n    Onda izvještaj sadrži artikle iz „Pića › Bezalkoholna › Sokovi“ i „Pića › Alkoholna“\n  @UC-05 @AC-07 @negativan\n  Scenario: Priroda i šifra se ne mijenjaju\n    Kada operater pokuša promijeniti prirodu ili šifru artikla „PIC-00045“ koji ima prijem\n    Onda snimanje pada sa greškom `article_kind_immutable`\n  @UC-06 @AC-08 @negativan\n  Scenario: Grupa za materijal ne ide na uslugu\n    Kada operater snimi uslugu „Montaža“ bez JM sa grupom „10E — Mebl štof“ (samo „Materijal“)\n    Onda snimanje pada sa greškom `accounting_group_nature_not_allowed`; sa grupom „Usluge“ uspijeva bez JM i bez zalihe\n  @UC-07 @AC-09 @negativan\n  Scenario: Obavezan atribut ostao prazan\n    Kada operater snimi artikal u „Sokovi“ bez obaveznog atributa „Zapremina“\n    Onda snimanje pada sa greškom `article_attribute_required`\n  @UC-07 @AC-10 @negativan\n  Scenario: Vrijednost van liste\n    Kada operater za „Okus“ (lista „jabuka“, „narandža“) unese „kruška“\n    Onda snimanje pada sa greškom `article_attribute_value_not_in_list`\n  @UC-07 @AC-11\n  Scenario: Filter po atributu\n    Kada operater filtrira listu artikala po okusu „jabuka“\n    Onda lista sadrži samo artikle sa okusom „jabuka“\n  @UC-08 @AC-12\n  Scenario: Preračun palete\n    Kada operater za sok unese 24 kom u kutiji, 8 kutija u redu i 5 redova na paleti\n    Onda program prikazuje 40 kutija i 960 kom na paleti\n  @UC-08 @AC-13\n  Scenario: Prijem u paletama\n    Kada magacioner potvrdi prijem „2 palete“ tog soka\n    Onda zaliha poraste za 1.920 kom\n  @UC-09 @AC-14\n  Scenario: Skeniranje barkoda kutije\n    Kada magacioner na stavci prijema skenira barkod kutije soka\n    Onda stavka dobija 24 kom soka\n  @UC-09 @AC-15 @negativan\n  Scenario: Isti barkod na dva artikla\n    Kada operater artiklu „PIC-00046“ doda barkod koji već ima „PIC-00045“\n    Onda snimanje pada sa greškom `article_barcode_duplicate`\n  @UC-10 @AC-16\n  Scenario: Nova stopa od datuma\n    Kada „Opšta stopa“ u BiH dobije red 18% od 2027-01-01, a važila je 17%\n    Onda račun od 2027-01-01 ima 18%, a račun od 2026-12-31 i stariji ostaju na 17%\n  @UC-10 @AC-17\n  Scenario: Izvoz bez izmjene artikla\n    Kada se isti artikal izda na domaćem i na izvoznom računu\n    Onda domaći ima 17%, izvozni 0%, a artikal je nepromijenjen\n  @UC-11\n  Scenario: Glavni dobavljač i minimalna zaliha\n    Kada operater postavi „Distributer A“ kao glavnog dobavljača, a magacioner min 2 palete u „Centralni“\n    Onda narudžba nudi „Distributer A“, a min zaliha u „Centralni“ je 1.920 kom\n  @UC-12\n  Scenario: Firma dobija kopiju šablona djelatnosti\n    Kada administrator platforme otvori firmu sa djelatnošću „Ugostitelj“\n    Onda firma ima stablo i grupe iz šablona, a njena izmjena ne mijenja šablon\n  @UC-13 @AC-18\n  Scenario: Uvoz iz Pantheona se slaže sa izvorom\n    Kada partner uveze CSV sa 120 aktivnih artikala, 150 barkodova i 40 pakovanja uz potvrđeno mapiranje\n    Onda firma ima 120 artikala, 150 barkodova i 40 pakovanja\n  @UC-13 @AC-19\n  Scenario: Konta se ne prenose\n    Kada partner uveze artikal koji u izvoru ima `acAcct` „1320“\n    Onda uvezeni artikal nema konto ni u jednom polju ni u `ext`\n```\n\n## 8. Isporuka po koracima\n\n| Korak | Šta | UC | Zavisi od | Dokumentacija |\n|---|---|---|---|---|\n| K1 | Priroda, oznake lot/serijski, knjigovodstvene grupe, pravila šifre i naziva; sistemski lot u Inventory | UC-05, UC-06 | — | `docs/manual/artikli.md`, `docs/manual/prijem-robe.md` |\n| K2 | Poreske kategorije, stope po državi i datumu, država firme | UC-10 | — | `docs/manual/artikli.md`, `docs/manual/podesavanja.md`, `docs/manual/fakture-i-nacrti.md` |\n| K3 | Stablo kategorija, zadane vrijednosti, brojač, šablon naziva, premještanje i prenos | UC-01, UC-02, UC-03 | K1, K2 | `docs/manual/artikli.md` |\n| K4 | Korisnički atributi i veza sa kategorijom (poslije D-01) | UC-07 | K3 | `docs/manual/artikli.md`, `docs/manual/podesavanja.md` |\n| K5 | JM sa decimalama, logistički nivoi, barkodovi, skeniranje na stavkama | UC-08, UC-09 | K1 | `docs/manual/artikli.md`, `docs/manual/prijem-robe.md`, `docs/manual/fakture-i-nacrti.md` |\n| K6 | Filter po čvoru u izvještajima; artikal × dobavljač i × magacin | UC-04, UC-11 | K3 | `docs/manual/zalihe-stanje.md`, `docs/manual/kartica-lager.md`, `docs/manual/artikli.md` |\n| K7 | Šabloni djelatnosti; farma šablon prelazi u novi model | UC-12 | K2–K5 | `docs/manual/upravljanje-tenantima-i-nalozima.md` |\n| K8 | Uvoz iz Pantheona sa mapiranjem | UC-13 | K7 | novi `docs/manual/uvoz-artikala.md` |\n\n## 9. Rizici i otvorena pitanja\n\n| Stavka | Ko odgovara | Blokira razvoj |\n|---|---|---|\n| Specifikacija kaže količina 4 decimale; kod ima `numeric(18,3)` u `inventory.stock_journal`, `invoicing` i `procurement` stavkama | Milan, ITPRO | Ne; plan zadržava 3 decimale, proširenje traži poseban plan |\n| Specifikacija kaže šifra ≤ 30 i bez razlike velikih slova; kod ima ≤ 64 i `ux_articles_tenant_code` na `code` (`CreateArticle.cs`, `014_tenancy.sql`) | Milan (D-06) | Ne |\n| Specifikacija kaže „priroda se ne mijenja nakon prvog prometa“; kod je zaključava odmah (`010_article_kind_immutable.sql`) | Milan (D-05) | Ne |\n| Specifikacija §17 kaže „jedna instalacija = jedna firma“; kod već ima više firmi (ADR-015) | Milan (D-02) | Ne |\n| AC-14 traži skeniranje „na kasi“; kase nema (AGENTS.md §1) | Milan (D-11) | Ne |\n| Tačne PDV kategorije i stope po državama | ITPRO, prije prve prodaje u državi | Ne |\n| Blusoft struktura artikala | Milovan | Samo uvoz iz Blusofta |\n| K4 (atributi) čeka D-01 na Savjetu; ostali koraci ne čekaju | Milan | Samo K4 |\n| Izvor kuriranog kataloga barkodova | ITPRO, Faza 2 | Ne |\n"</script>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/18.1.1/lib/marked.umd.min.js" integrity="sha512-TR+1uszv8n9bFfC+4wouvHv2Na21prfppUEcxR62hf7+e4AZpz1l726rHEk5Zhpg6uJWUJ+LhN+hVqL99YCZqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.4.17/purify.min.js" integrity="sha512-2wT0W6vojz3cJuLoa/DxrPVQRinkfRjFWMWIDK4NghTqObEhpem1nEkeK0d9ZE+/hyvfMNuJZlfxM4LsRgeoSA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.15.0/mermaid.min.js" integrity="sha512-HH52omhHpZF6RfVnGiQwYgYm4H/ya2xsZYLl5xJ4+tLfX+rN4+8zF7V/H/KLeicPrKZYi1g6iBmVkk2AhXTGlg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const md = JSON.parse(document.getElementById('plan-md').textContent);
+const ticket = document.body.dataset.ticket;
+const esc = (s) => s.replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+};
+const kw = /^(Za dato|Za date|Za dati|Kada|Kad|Onda|I|Ali|Given|When|Then|And|But)\b/;
+function gherkin(text) {
+  let out = '', open = false, tags = '';
+  for (const raw of text.split('\n')) {
+    const line = raw.trim();
+    if (!line || /^#\s*language:/.test(line)) continue;
+    if (line.startsWith('#')) { out += '<div class="comment">' + esc(line.slice(1).trim()) + '</div>'; continue; }
+    if (line.startsWith('@')) {
+      tags = line.split(/\s+/).map((t) => '<span class="chip ' + (t === '@negativan' ? 'neg' : 'tag') + '">' + esc(t.slice(1)) + '</span>').join('');
+      continue;
+    }
+    let m = /^(Funkcionalnost|Feature):\s*(.*)$/.exec(line);
+    if (m) { out += '<div class="feature">' + esc(m[2]) + '</div>'; continue; }
+    m = /^(Scenario|Struktura scenarija|Scenario Outline):\s*(.*)$/.exec(line);
+    if (m) {
+      if (open) out += '</div>';
+      out += '<div class="sc">' + (tags ? '<div class="tags">' + tags + '</div>' : '') + '<div class="sname">' + esc(m[2]) + '</div>';
+      open = true; tags = ''; continue;
+    }
+    m = kw.exec(line);
+    const code = (t) => esc(t).replace(/`([^`]+)`/g, '<code>$1</code>');
+    out += '<div class="step">' + (m ? '<span class="kw">' + esc(m[1]) + '</span>' + code(line.slice(m[1].length)) : code(line)) + '</div>';
+  }
+  return '<div class="gherkin">' + out + (open ? '</div>' : '') + '</div>';
+}
+marked.use({ gfm: true, renderer: {
+  code(token) {
+    const lang = (token.lang || '').trim().toLowerCase();
+    if (lang === 'gherkin') return gherkin(token.text);
+    if (lang === 'mermaid') return '<pre class="mermaid">' + esc(token.text) + '</pre>';
+    return false;
+  },
+}});
+
+const container = document.getElementById('plan');
+const tmp = document.createElement('div');
+tmp.innerHTML = DOMPurify.sanitize(marked.parse(md));
+
+// Tables: wrap for scrolling, and label each cell so narrow screens show rows as cards.
+for (const table of tmp.querySelectorAll('table')) {
+  const heads = Array.from(table.querySelectorAll('thead th')).map((th) => th.textContent.trim());
+  for (const tr of table.querySelectorAll('tbody tr')) Array.from(tr.children).forEach((td, i) => { td.dataset.label = heads[i] || ''; });
+  const wrap = document.createElement('div');
+  wrap.className = 'table-wrap';
+  table.replaceWith(wrap);
+  wrap.appendChild(table);
+}
+for (const td of tmp.querySelectorAll('td:first-child')) {
+  if (/^(UC-\d+|AC-\d+|D-\d+|K\d+|S\d+)$/.test(td.textContent.trim())) td.innerHTML = '<span class="chip">' + esc(td.textContent.trim()) + '</span>';
+}
+
+// One collapsible card per "## " section.
+const sections = {};
+let body = null;
+for (const node of Array.from(tmp.childNodes)) {
+  if (node.nodeName === 'H2') {
+    const m = /^(\d+)\.\s*(.*)$/.exec(node.textContent.trim());
+    const n = m ? m[1] : String(Object.keys(sections).length + 1);
+    const label = m ? m[2] : node.textContent.trim();
+    const det = document.createElement('details');
+    det.className = 's';
+    det.id = 's' + n;
+    det.innerHTML = '<summary><span class="n">' + esc(n) + '</span><span class="lbl">' + esc(label) + '</span><span class="hint"></span></summary><div class="sbody"></div>';
+    container.appendChild(det);
+    body = det.querySelector('.sbody');
+    sections[n] = { det, body, label };
+    continue;
+  }
+  if (body) body.appendChild(node);
+}
+for (const { det, body } of Object.values(sections)) {
+  const rows = body.querySelectorAll('tbody tr').length;
+  const scen = body.querySelectorAll('.gherkin .sc').length;
+  const hint = scen ? scen + ' scenarija' : rows ? rows + ' stavki' : '';
+  det.querySelector('.hint').textContent = hint;
+}
+
+// Helpers to read a section's table by column name.
+function rowsOf(n) {
+  const s = sections[n];
+  if (!s) return [];
+  const out = [];
+  for (const table of s.body.querySelectorAll('table')) {
+    const heads = Array.from(table.querySelectorAll('thead th')).map((th) => th.textContent.trim().toLowerCase());
+    for (const tr of table.querySelectorAll('tbody tr')) {
+      const cells = Array.from(tr.children);
+      out.push({ heads, cells, get(name, fallback) {
+        const i = heads.findIndex((h) => h.startsWith(name));
+        const cell = cells[i >= 0 ? i : fallback];
+        return cell ? cell.innerHTML : '';
+      }, text: cells.map((c) => c.textContent.trim()) });
+    }
+  }
+  return out;
+}
+
+// "Ukratko": purpose, numbers, decisions to make, blockers.
+const summary = document.getElementById('summary');
+const purpose = sections['1'] ? sections['1'].body.querySelector('p') : null;
+const count = (n, re) => rowsOf(n).filter((r) => re.test(r.text[0] || '')).length;
+const uc = count('2', /^UC-/), ac = count('2', /^AC-/);
+const decisions = rowsOf('3').filter((r) => /^D-\d+/.test(r.text[0] || ''));
+const steps = rowsOf('8').filter((r) => /^K\d+/.test(r.text[0] || ''));
+const scenarios = container.querySelectorAll('.gherkin .sc').length;
+// A risk blocks when its "Blokira" cell says anything but no ("Ne", "—").
+const blockers = rowsOf('9').filter((r) => {
+  const i = r.heads.findIndex((h) => h.startsWith('blokira'));
+  const v = (i >= 0 ? r.text[i] : r.text[r.text.length - 1]) || '';
+  return v && !/^(ne|nema|—|-)(\b|$|;|,)/i.test(v);
+});
+const words = md.split(/\s+/).length;
+const stat = (v, l) => v ? '<div class="stat"><b>' + v + '</b><span>' + l + '</span></div>' : '';
+let html = '<div class="card hero"><div class="eyebrow">Ukratko</div>' + (purpose ? '<p class="lead">' + purpose.innerHTML + '</p>' : '') +
+  '<div class="stats">' + stat(uc, 'slučajeva') + stat(ac, 'kriterijuma') + stat(decisions.length, 'odluka') + stat(steps.length, 'koraka') + stat(scenarios, 'scenarija') +
+  '<div class="stat"><b>' + Math.max(1, Math.round(words / 200)) + '</b><span>min čitanja</span></div></div></div>';
+
+if (decisions.length) {
+  html += '<div class="card"><div class="eyebrow">Tvoje odluke · ' + decisions.length + '</div><p class="muted">Dodirni ✓, ✗ ili ?. Na kraju kopiraj odgovor.</p>';
+  for (const d of decisions) {
+    const id = d.text[0];
+    html += '<div class="dec" data-id="' + esc(id) + '"><div class="dq"><span class="chip">' + esc(id) + '</span> ' + d.get('odluka', 1) + '</div>' +
+      '<div class="dr"><span class="rk">Preporuka</span>' + d.get('preporuka', 2) + '</div>' +
+      (d.get('zašto', 3) ? '<div class="dr why"><span class="rk">Zašto</span>' + d.get('zašto', 3) + '</div>' : '') +
+      '<div class="btns"><button data-v="da">✓ Da</button><button data-v="ne">✗ Ne</button><button data-v="pitanje">? Pitanje</button></div>' +
+      '<textarea placeholder="Komentar (opciono)" rows="2"></textarea></div>';
+  }
+  html += '<button class="copy" id="copy">Kopiraj moj odgovor</button><div class="copied" id="copied"></div></div>';
+}
+if (blockers.length) {
+  html += '<div class="card warn"><div class="eyebrow">Blokira razvoj · ' + blockers.length + '</div><ul>' +
+    blockers.map((b) => '<li>' + b.cells[0].innerHTML + '<div class="muted">' + esc(b.text.slice(1).filter(Boolean).join(' · ')) + '</div></li>').join('') + '</ul></div>';
+}
+if (steps.length) {
+  html += '<div class="card"><div class="eyebrow">Redoslijed rada</div><ol class="timeline">' +
+    steps.map((k) => '<li><span class="chip">' + esc(k.text[0]) + '</span> ' + (k.get('šta', 1) || k.get('scope', 1)) + '</li>').join('') + '</ol></div>';
+}
+html += '<div class="toolbar"><button id="open-all">Otvori sve sekcije</button></div>';
+summary.innerHTML = html;
+
+// Decision answers persist per page in this browser.
+const key = 'plan:' + location.pathname;
+const answers = store.get(key) || {};
+for (const dec of summary.querySelectorAll('.dec')) {
+  const id = dec.dataset.id, a = answers[id] || {};
+  const ta = dec.querySelector('textarea');
+  const paint = () => {
+    dec.querySelectorAll('.btns button').forEach((b) => b.classList.toggle('on', b.dataset.v === (answers[id] || {}).v));
+    dec.dataset.state = (answers[id] || {}).v || '';
+    ta.style.display = answers[id] && answers[id].v && answers[id].v !== 'da' || ta.value ? 'block' : 'none';
+  };
+  ta.value = a.note || '';
+  dec.querySelectorAll('.btns button').forEach((b) => b.addEventListener('click', () => {
+    answers[id] = { ...(answers[id] || {}), v: (answers[id] || {}).v === b.dataset.v ? '' : b.dataset.v };
+    store.set(key, answers); paint();
+  }));
+  ta.addEventListener('input', () => { answers[id] = { ...(answers[id] || {}), note: ta.value }; store.set(key, answers); });
+  paint();
+}
+const copy = document.getElementById('copy');
+if (copy) copy.addEventListener('click', async () => {
+  const label = { da: '✓ prihvatam', ne: '✗ ne', pitanje: '? pitanje' };
+  const lines = [ticket + ' — odgovor na plan:'];
+  for (const dec of summary.querySelectorAll('.dec')) {
+    const a = answers[dec.dataset.id] || {};
+    lines.push(dec.dataset.id + ': ' + (label[a.v] || '— bez odgovora') + (a.note ? ' — ' + a.note.trim() : ''));
+  }
+  const text = lines.join('\n');
+  let ok = false;
+  try { await navigator.clipboard.writeText(text); ok = true; } catch {}
+  document.getElementById('copied').innerHTML = ok ? 'Kopirano. Zalijepi u PR komentar ili u chat.' : '<pre>' + esc(text) + '</pre>';
+});
+document.getElementById('open-all').addEventListener('click', (e) => {
+  const all = Object.values(sections).every((s) => s.det.open);
+  Object.values(sections).forEach((s) => { s.det.open = !all; });
+  e.target.textContent = all ? 'Otvori sve sekcije' : 'Zatvori sve sekcije';
+});
+
+// Section menu: tap opens and scrolls to the section.
+const nav = document.getElementById('sections');
+for (const [n, s] of Object.entries(sections)) {
+  const a = document.createElement('a');
+  a.href = '#s' + n;
+  a.textContent = n + ' ' + s.label;
+  a.addEventListener('click', () => { s.det.open = true; });
+  nav.appendChild(a);
+}
+if (location.hash && document.querySelector(location.hash) && document.querySelector(location.hash).tagName === 'DETAILS') document.querySelector(location.hash).open = true;
+if (window.mermaid && container.querySelector('.mermaid')) {
+  mermaid.initialize({ startOnLoad: false, theme: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default' });
+  const draw = () => mermaid.run({ querySelector: '.mermaid:not([data-processed])' });
+  Object.values(sections).forEach((s) => s.det.addEventListener('toggle', () => { if (s.det.open) draw(); }));
+}
+</script>
+</body>
+</html>
